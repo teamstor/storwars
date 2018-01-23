@@ -39,7 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Editor\TestState.cs" />
+    <Compile Include="Map\Editor\MapEditorState.cs" />
+    <Compile Include="Map\MapData.cs" />
+    <Compile Include="Map\MapInfo.cs" />
+    <Compile Include="Map\TerrainTile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

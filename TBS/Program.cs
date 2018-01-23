@@ -1,4 +1,5 @@
 ﻿using TeamStor.Engine;
+using TeamStor.TBS.Map.Editor;
 
 namespace TeamStor.TBS
 {
@@ -6,7 +7,7 @@ namespace TeamStor.TBS
 	{
 		public static void Main(string[] args)
 		{
-			using(Game game = Game.Run(new TestState()))
+			using(Game game = Game.Run(new MapEditorState()))
 				game.Run();
 		}
 	}
