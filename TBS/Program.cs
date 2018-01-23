@@ -6,7 +6,7 @@ namespace TeamStor.TBS
 	{
 		public static void Main(string[] args)
 		{
-			using(Game game = Game.Run(new TestState(), "data", false))
+			using(Game game = Game.Run(new TestState()))
 				game.Run();
 		}
 	}
