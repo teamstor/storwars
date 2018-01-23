@@ -1,8 +1,8 @@
-# TBS (Unnamed Turn-based Strategy Game)
+# TBS (Unnamed turn-based strategy game)
 Very nice game
 
-
-Lead Programmer: [@HannesMann](https://github.com/HannesMann) (genius)
+## The team
+Lead Programmer: [@HannesMann](https://github.com/HannesMann) **(genius)**
 
 Programmer: [@elstonko](https://github.com/elstonko)
 
