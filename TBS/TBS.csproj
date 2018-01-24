@@ -39,6 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Map\Editor\Button.cs" />
+    <Compile Include="Map\Editor\EditMode.cs" />
     <Compile Include="Map\Editor\MapEditorState.cs" />
     <Compile Include="Map\MapData.cs" />
     <Compile Include="Map\MapInfo.cs" />

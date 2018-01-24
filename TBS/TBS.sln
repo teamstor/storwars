@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TBS", "TBS.csproj", "{A6AAFA9B-249C-48EC-81A1-1B49EE7DEBD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamStor.Engine", "..\team-stor-engine\TeamStor.Engine\TeamStor.Engine.csproj", "{AC5AE28D-4948-4EB1-9BE8-45B750B52B20}"
@@ -18,5 +21,11 @@ Global
 		{AC5AE28D-4948-4EB1-9BE8-45B750B52B20}.Debug|x64.Build.0 = Debug|x64
 		{AC5AE28D-4948-4EB1-9BE8-45B750B52B20}.Release|x64.ActiveCfg = Release|x64
 		{AC5AE28D-4948-4EB1-9BE8-45B750B52B20}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B6BCAC02-7E96-4EC9-BAE3-4A18C39A316D}
 	EndGlobalSection
 EndGlobal
