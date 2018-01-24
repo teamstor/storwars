@@ -1,4 +1,9 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
+using TeamStor.Engine;
+using TeamStor.Engine.Graphics;
+using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 
 namespace TeamStor.TBS.Map
 {
@@ -70,5 +75,30 @@ namespace TeamStor.TBS.Map
 			Array.Resize(ref tiles, newWidth * newHeight);
 			Tiles = tiles;
 		}
+
+        /// <summary>
+        /// Draws this map data (or part of it).
+        /// </summary>
+        /// <param name="batch">The batch to use when drawing.</param>
+        /// <param name="assets">Assets manager to use</param>
+        /// <param name="rectangle">The cropped part of the map to draw. null - draw whole map</param>
+        public void Draw(SpriteBatch batch, AssetsManager assets, Rectangle? rectangle = null)
+        {
+            for(int x = 0; x < Width; x++)
+            {
+                for(int y = 0; y < Height; y++)
+                {
+                    if(!rectangle.HasValue || rectangle.Value.Intersects(new Rectangle(x * 16, y * 16, 16, 16)))
+                    {
+                        batch.Texture(
+                            new Vector2(x * 16, y * 16),
+                            assets.Get<Texture2D>(TerrainTile.TILE_TEXTURE),
+                            Color.White,
+                            Vector2.One,
+                            TerrainTile.Tiles[GetTileIdAt(x, y)].TextureRectangle);
+                    }
+                }
+            }
+        }
 	}
 }

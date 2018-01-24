@@ -31,22 +31,6 @@ namespace TeamStor.TBS.Map.Editor
 		{
 			batch.Transform = Matrix.CreateScale(2);
 			batch.SamplerState = SamplerState.PointClamp;
-
-			for(int x = 0; x < _mapData.Width; x++)
-			{
-				for(int y = 0; y < _mapData.Height; y++)
-				{
-					if(new Rectangle(0, 0, (int)(screenSize.X / 2), (int)(screenSize.Y / 2)).Intersects(new Rectangle(x * 16, y * 16, 16, 16)))
-					{
-						batch.Texture(
-							new Vector2(x * 16, y * 16),
-							Assets.Get<Texture2D>(TerrainTile.TILE_TEXTURE),
-							Color.White,
-							Vector2.One,
-							TerrainTile.Tiles[_mapData.GetTileIdAt(x, y)].TextureRectangle);
-					}
-				}
-			}
 			
 			batch.Reset();
 			
