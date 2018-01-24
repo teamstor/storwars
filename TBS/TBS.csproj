@@ -40,8 +40,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Map\Editor\Button.cs" />
-    <Compile Include="Map\Editor\EditMode.cs" />
+    <Compile Include="Map\Editor\Camera.cs" />
     <Compile Include="Map\Editor\MapEditorState.cs" />
+    <Compile Include="Map\Editor\SelectionMenu.cs" />
+    <Compile Include="Map\Editor\States\MapEditorEditInfoState.cs" />
+    <Compile Include="Map\Editor\States\MapEditorModeState.cs" />
+    <Compile Include="Map\Editor\States\MapEditorShowKeybindsState.cs" />
+    <Compile Include="Map\Editor\States\MapEditorSpawnPointEditState.cs" />
+    <Compile Include="Map\Editor\States\MapEditorTerrainEditState.cs" />
     <Compile Include="Map\MapData.cs" />
     <Compile Include="Map\MapInfo.cs" />
     <Compile Include="Map\TerrainTile.cs" />

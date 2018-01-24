@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TeamStor.Engine;
 using TeamStor.Engine.Graphics;
-
+using TeamStor.Engine.Tween;
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 using Game = TeamStor.Engine.Game;
 
@@ -17,7 +17,7 @@ namespace TeamStor.TBS.Map.Editor
     {
         public string Text;
         public Texture2D Icon;
-        public TweenValue X, Y;
+        public TweenedVector2 Position;
         public Font Font;
 
         public delegate void OnClicked(Button button);
@@ -27,7 +27,7 @@ namespace TeamStor.TBS.Map.Editor
         {
             get
             {
-                Rectangle rectangle = new Rectangle((int)X.Value, (int)Y.Value, 4, 32);
+                Rectangle rectangle = new Rectangle((int)Position.Value.X, (int)Position.Value.Y, 4, 32);
 
                 if(Icon != null)
                     rectangle.Width += Icon.Width + 4;
@@ -57,10 +57,10 @@ namespace TeamStor.TBS.Map.Editor
             batch.Rectangle(Rectangle, Color.Black * 0.8f);
 
             if(Icon != null)
-                batch.Texture(new Vector2((float)X.Value + 4, (float)Y.Value + 4), Icon, Color.White * (hovered ? 1f : 0.6f));
+                batch.Texture(new Vector2(Position.Value.X + 4, Position.Value.Y + 4), Icon, Color.White * (hovered ? 1f : 0.6f));
 
             if(Text != "")
-                batch.Text(Font, 15, Text, new Vector2((float)X.Value + (Icon != null ? Icon.Width + 8 : 4), (float)Y.Value + 6), Color.White * (hovered ? 1f : 0.6f));
+                batch.Text(Font, 15, Text, new Vector2(Position.Value.X + (Icon != null ? Icon.Width + 8 : 4), Position.Value.Y + 6), Color.White * (hovered ? 1f : 0.6f));
         }
     }
 }

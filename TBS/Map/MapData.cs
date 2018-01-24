@@ -47,7 +47,7 @@ namespace TeamStor.TBS.Map
 		/// <param name="y">Y position</param>
 		public byte GetTileIdAt(int x, int y)
 		{
-			return Tiles[(y * Height) + x];
+			return Tiles[(y * Width) + x];
 		}
 		
 		/// <summary>
@@ -58,7 +58,7 @@ namespace TeamStor.TBS.Map
 		/// <param name="newId">The new ID</param>
 		public void SetTileIdAt(int x, int y, byte newId)
 		{
-			Tiles[(y * Height) + x] = newId;
+			Tiles[(y * Width) + x] = newId;
 		}
 
 		/// <summary>
@@ -68,8 +68,8 @@ namespace TeamStor.TBS.Map
 		/// <param name="newHeight">The new height</param>
 		public void Resize(int newWidth, int newHeight)
 		{
-			Width = Width;
-			Height = Height;
+			Width = newWidth;
+			Height = newHeight;
 			
 			byte[] tiles = Tiles;
 			Array.Resize(ref tiles, newWidth * newHeight);
