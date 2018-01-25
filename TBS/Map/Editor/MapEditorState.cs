@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework.Input;
 using TeamStor.Engine;
 using TeamStor.Engine.Graphics;
@@ -233,10 +234,10 @@ namespace TeamStor.TBS.Map.Editor
             Buttons["edit-info-mode"].Active = _editMode == EditMode.Info;
 			Buttons["keybinds-help-mode"].Active = _editMode == EditMode.Keybinds;
 
-            foreach(Button button in Buttons.Values)
+            foreach(Button button in Buttons.Values.ToArray())
                 button.Update(Game);
 
-            foreach(SelectionMenu menu in SelectionMenus.Values)
+            foreach(SelectionMenu menu in SelectionMenus.Values.ToArray())
                 menu.Update(Game);
 
             string str =
@@ -281,11 +282,11 @@ namespace TeamStor.TBS.Map.Editor
 		public override void Draw(SpriteBatch batch, Vector2 screenSize)
 		{
 			batch.Transform = Camera.Transform;
-			batch.SamplerState = SamplerState.PointClamp;
-
+			batch.SamplerState = SamplerState.PointWrap;
+			
             MapData.Draw(Game, Assets, new Rectangle(
-                (int)-(Camera.Translation.X / Math.Ceiling(Camera.Zoom.Value)),
-                (int)-(Camera.Translation.Y / Math.Ceiling(Camera.Zoom.Value)), 
+                (int)-(Camera.Translation.X / Camera.Zoom.Value),
+                (int)-(Camera.Translation.Y / Camera.Zoom.Value), 
                 (int)(screenSize.X / Math.Floor(Camera.Zoom.Value)), 
                 (int)(screenSize.Y / Math.Floor(Camera.Zoom.Value))));
 			

@@ -29,9 +29,6 @@ namespace TeamStor.TBS.Map.Editor
 
         public void Update(Game game)
 		{
-            if(Rectangle.TargetValue.Width == 0 || Rectangle.TargetValue.Height == 0)
-                Rectangle.TweenTo(new Rectangle(Rectangle.TargetValue.X, Rectangle.TargetValue.Y, Rectangle.TargetValue.Width, 15 + 12), TweenEaseType.Linear, 0);
-
             if(Rectangle.Value.Contains(game.Input.MousePosition) && !Rectangle.Value.Contains(game.Input.PreviousMousePosition))
                 Rectangle.TweenTo(new Rectangle(Rectangle.TargetValue.X, Rectangle.TargetValue.Y, Rectangle.TargetValue.Width, 15 + 12 + Entries.Count * (15 + 4) + 4), TweenEaseType.EaseOutQuad, 0.1f);
             else if(!Rectangle.Value.Contains(game.Input.MousePosition) && Rectangle.Value.Contains(game.Input.PreviousMousePosition))
@@ -43,7 +40,7 @@ namespace TeamStor.TBS.Map.Editor
                 Vector2 measure = game.DefaultFonts.Bold.Measure(15, s);
                 Rectangle rectangle = new Rectangle(Rectangle.Value.X, y, Rectangle.Value.Width, (int)measure.Y);
 
-                if(SelectedValue != s && rectangle.Contains(game.Input.MousePosition) && game.Input.MousePressed(MouseButton.Left))
+                if(SelectedValue != s && Rectangle.Value.Contains(game.Input.MousePosition) && rectangle.Contains(game.Input.MousePosition) && game.Input.MousePressed(MouseButton.Left))
                 {
                     Selected = Entries.IndexOf(s);
 

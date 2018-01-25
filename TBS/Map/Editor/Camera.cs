@@ -63,14 +63,14 @@ namespace TeamStor.TBS.Map.Editor
                     _dragging = false;
 			}
 
-            if(Translation.X > 0)
-                Translation.X = 0;
-            if(Translation.Y > 0)
-                Translation.Y = 0;
-            if(Translation.X < -(_state.MapData.Width * (16 * Zoom) - _state.Game.GraphicsDevice.Viewport.Bounds.Width))
-                Translation.X = -(_state.MapData.Width * (16 * Zoom) - _state.Game.GraphicsDevice.Viewport.Bounds.Width );
-            if(Translation.Y < -(_state.MapData.Height * (16 * Zoom) - _state.Game.GraphicsDevice.Viewport.Bounds.Height))
-                Translation.Y = -(_state.MapData.Height * (16 * Zoom) - _state.Game.GraphicsDevice.Viewport.Bounds.Height);
+            if(Translation.X > 200)
+                Translation.X = 200;
+            if(Translation.Y > 200)
+                Translation.Y = 200;
+            if(Translation.X < -(_state.MapData.Width * (16 * Zoom) - _state.Game.GraphicsDevice.Viewport.Bounds.Width) - 200)
+                Translation.X = -(_state.MapData.Width * (16 * Zoom) - _state.Game.GraphicsDevice.Viewport.Bounds.Width) - 200;
+            if(Translation.Y < -(_state.MapData.Height * (16 * Zoom) - _state.Game.GraphicsDevice.Viewport.Bounds.Height) - 200)
+                Translation.Y = -(_state.MapData.Height * (16 * Zoom) - _state.Game.GraphicsDevice.Viewport.Bounds.Height) - 200;
 
             if(_state.Game.GraphicsDevice.Viewport.Bounds.Width / 2 > _state.MapData.Width * 8 * Zoom)
 				Translation.X = _state.Game.GraphicsDevice.Viewport.Bounds.Width / 2 - _state.MapData.Width * 8 * Zoom;

@@ -40,19 +40,19 @@ namespace TeamStor.TBS.Map
         /// Sand.
         /// </summary>
         public static TerrainTile Sand =
-            new TerrainTile(3, "Sand", new Point(4, 0));
+            new TerrainTile(3, "Sand", new Point(5, 0));
 
         /// <summary>
         /// Raked sand.
         /// </summary>
         public static TerrainTile RakedSand =
-            new TerrainTile(4, "Raked Sand", new Point(5, 0));
+            new TerrainTile(4, "Raked Sand", new Point(6, 0));
 
         /// <summary>
         /// Sandstone.
         /// </summary>
         public static TerrainTile Sandstone =
-            new TerrainTile(5, "Sandstone", new Point(6, 0));
+            new TerrainTile(5, "Sandstone", new Point(7, 0));
 
         /// <summary>
         /// Tile ID used in map data.

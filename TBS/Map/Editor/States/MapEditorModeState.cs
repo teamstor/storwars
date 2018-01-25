@@ -12,7 +12,7 @@ namespace TeamStor.TBS.Map.Editor.States
 		/// </summary>
 		public abstract bool PauseEditor { get; }
 
-        public string CurrentHelpText
+        public virtual string CurrentHelpText
         {
             get
             {
