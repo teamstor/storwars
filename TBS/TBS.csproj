@@ -51,6 +51,8 @@
     <Compile Include="Map\MapData.cs" />
     <Compile Include="Map\MapInfo.cs" />
     <Compile Include="Map\TerrainTile.cs" />
+    <Compile Include="Map\Tiles\VariationsTerrainTile.cs" />
+    <Compile Include="Map\Tiles\AnimatedTerrainTile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -60,6 +62,7 @@
       <Name>TeamStor.Engine</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent Condition="'$(OS)' == 'Windows_NT' ">

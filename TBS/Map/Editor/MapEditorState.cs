@@ -63,7 +63,7 @@ namespace TeamStor.TBS.Map.Editor
         public override void OnEnter(GameState previousState)
 		{
             Game.IsMouseVisible = true;
-			MapData = new MapData(new MapInfo { Name = "Unnamed", Creator = "Unknown" }, 5, 5);
+			MapData = new MapData(new MapInfo { Name = "Unnamed", Creator = "Unknown" }, 50, 50);
 			
 			Camera = new Camera(this);
 
@@ -189,6 +189,9 @@ namespace TeamStor.TBS.Map.Editor
 		{
 			get
 			{
+                if(CurrentState.CurrentHelpText != "")
+                    return CurrentState.CurrentHelpText;
+
 				if(!Buttons["edit-terrain-mode"].Active && Buttons["edit-terrain-mode"].Rectangle.Contains(Input.MousePosition))
 					return "Edit terrain";
 				if(!Buttons["edit-spawnpoints-mode"].Active && Buttons["edit-spawnpoints-mode"].Rectangle.Contains(Input.MousePosition))
@@ -233,6 +236,9 @@ namespace TeamStor.TBS.Map.Editor
             foreach(Button button in Buttons.Values)
                 button.Update(Game);
 
+            foreach(SelectionMenu menu in SelectionMenus.Values)
+                menu.Update(Game);
+
             string str =
                "TBS Map Editor\n" +
                "Name: \"" + MapData.Info.Name + "\" (made by \"" + MapData.Info.Creator + "\")\n" +
@@ -258,7 +264,13 @@ namespace TeamStor.TBS.Map.Editor
 					return true;
 			}
 
-			return false;
+            foreach(SelectionMenu menu in SelectionMenus.Values)
+            {
+                if(menu.Rectangle.Value.Contains(point))
+                    return true;
+            }
+
+            return false;
 		}
 
         public override void FixedUpdate(long count)
@@ -271,7 +283,11 @@ namespace TeamStor.TBS.Map.Editor
 			batch.Transform = Camera.Transform;
 			batch.SamplerState = SamplerState.PointClamp;
 
-            MapData.Draw(batch, Assets, new Rectangle(0, 0, (int)screenSize.X / (int)Math.Floor(Camera.Zoom.Value), (int)screenSize.Y / (int)Math.Floor(Camera.Zoom.Value)));
+            MapData.Draw(Game, Assets, new Rectangle(
+                (int)-(Camera.Translation.X / Math.Ceiling(Camera.Zoom.Value)),
+                (int)-(Camera.Translation.Y / Math.Ceiling(Camera.Zoom.Value)), 
+                (int)(screenSize.X / Math.Floor(Camera.Zoom.Value)), 
+                (int)(screenSize.Y / Math.Floor(Camera.Zoom.Value))));
 			
 			batch.Outline(new Rectangle(0, 0, MapData.Width * 16, MapData.Height * 16),
 				Color.White, 1, false);
@@ -302,6 +318,9 @@ namespace TeamStor.TBS.Map.Editor
 			
 			foreach(Button button in Buttons.Values)
                 button.Draw(Game);
+
+            foreach(SelectionMenu menu in SelectionMenus.Values)
+                menu.Draw(Game);
 
             batch.Rectangle(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.Black * _fade);
 		}

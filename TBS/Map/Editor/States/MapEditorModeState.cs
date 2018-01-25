@@ -12,9 +12,18 @@ namespace TeamStor.TBS.Map.Editor.States
 		/// </summary>
 		public abstract bool PauseEditor { get; }
 
-		/// <summary>
-		/// Base map editor state.
-		/// </summary>
-		public MapEditorState BaseState;
+        public string CurrentHelpText
+        {
+            get
+            {
+                return "";
+            }
+        }
+
+
+        /// <summary>
+        /// Base map editor state.
+        /// </summary>
+        public MapEditorState BaseState;
 	}
 }

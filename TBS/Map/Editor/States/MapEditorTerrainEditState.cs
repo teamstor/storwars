@@ -4,9 +4,17 @@ using Microsoft.Xna.Framework.Graphics;
 using TeamStor.Engine;
 using TeamStor.Engine.Tween;
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
+using System.Collections.Generic;
 
 namespace TeamStor.TBS.Map.Editor.States
 {
+    public enum TerrainTool
+    {
+        PaintOne,
+        PaintCircle,
+        PaintRectangle
+    }
+
 	public class MapEditorTerrainEditState : MapEditorModeState
 	{		
 		public Point SelectedTile
@@ -40,17 +48,33 @@ namespace TeamStor.TBS.Map.Editor.States
 
 		public override void OnEnter(GameState previousState)
 		{
+            List<string> tiles = new List<string>();
+            foreach(TerrainTile tile in TerrainTile.Tiles.Values)
+                tiles.Add(tile.Name);
+
+            BaseState.SelectionMenus.Add("select-tile-menu", new SelectionMenu
+            {
+                Title = "Tiles",
+                Entries = tiles,
+                Rectangle = new TweenedRectangle(Game, new Rectangle(48, 114, 210, 0))
+            });
 		}
 
 		public override void OnLeave(GameState nextState)
 		{
-		}
+            BaseState.SelectionMenus.Remove("select-tile-menu");
+        }
 
-		public override void Update(double deltaTime, double totalTime, long count)
-		{
-		}
+        public override void Update(double deltaTime, double totalTime, long count)
+        {
+            BaseState.SelectionMenus["select-tile-menu"].Title = "Tiles (selected: " + BaseState.SelectionMenus["select-tile-menu"].SelectedValue + ")";
 
-		public override void FixedUpdate(long count)
+            if(!BaseState.IsPointObscured(Input.MousePosition))
+            {
+            }
+        }
+
+        public override void FixedUpdate(long count)
 		{
 		}
 
@@ -70,6 +94,13 @@ namespace TeamStor.TBS.Map.Editor.States
 					Color.White * alpha, 1, false);
 
 				batch.Reset();
+
+                batch.Text(
+                    SpriteBatch.FontStyle.MonoBold, 
+                    (uint)(8 * BaseState.Camera.Zoom), 
+                    "(" + SelectedTile.X + ", " + SelectedTile.Y + ")", 
+                    new Vector2(SelectedTile.X * 16, SelectedTile.Y * 16) * BaseState.Camera.Zoom + BaseState.Camera.Translation - new Vector2(0, 12 * BaseState.Camera.Zoom),
+                    Color.White * alpha);
 			}
 		}
 	}
