@@ -284,13 +284,19 @@ namespace TeamStor.TBS.Map.Editor
 			batch.Transform = Camera.Transform;
 			batch.SamplerState = SamplerState.PointWrap;
 			
-            MapData.Draw(Game, Assets, new Rectangle(
+            MapData.Draw(false, Game, Assets, new Rectangle(
                 (int)-(Camera.Translation.X / Camera.Zoom.Value),
                 (int)-(Camera.Translation.Y / Camera.Zoom.Value), 
                 (int)(screenSize.X / Math.Floor(Camera.Zoom.Value)), 
                 (int)(screenSize.Y / Math.Floor(Camera.Zoom.Value))));
-			
-			batch.Outline(new Rectangle(0, 0, MapData.Width * 16, MapData.Height * 16),
+
+            MapData.Draw(true, Game, Assets, new Rectangle(
+                (int)-(Camera.Translation.X / Camera.Zoom.Value),
+                (int)-(Camera.Translation.Y / Camera.Zoom.Value),
+                (int)(screenSize.X / Math.Floor(Camera.Zoom.Value)),
+                (int)(screenSize.Y / Math.Floor(Camera.Zoom.Value))));
+
+            batch.Outline(new Rectangle(0, 0, MapData.Width * 16, MapData.Height * 16),
 				Color.White, 1, false);
 			
 			//batch.Texture(new Vector2(64, 64), Assets.Get<Texture2D>("textures/buildings/mine_soviet.png"), Color.White);

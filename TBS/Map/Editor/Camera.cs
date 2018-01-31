@@ -10,7 +10,6 @@ namespace TeamStor.TBS.Map.Editor
 	/// </summary>
 	public class Camera
 	{
-        private bool _dragging;
 		private MapEditorState _state;
 		
 		/// <summary>
@@ -58,10 +57,7 @@ namespace TeamStor.TBS.Map.Editor
 
                 if(_state.Input.Mouse(MouseButton.Right))
                     Translation += _state.Input.MouseDelta;
-
-                if(_state.Input.MouseReleased(MouseButton.Right))
-                    _dragging = false;
-			}
+            }
 
             if(Translation.X > 200)
                 Translation.X = 200;

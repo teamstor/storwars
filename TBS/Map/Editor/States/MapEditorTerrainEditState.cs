@@ -5,6 +5,7 @@ using TeamStor.Engine;
 using TeamStor.Engine.Tween;
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TeamStor.TBS.Map.Editor.States
 {
@@ -18,6 +19,7 @@ namespace TeamStor.TBS.Map.Editor.States
 	public class MapEditorTerrainEditState : MapEditorModeState
 	{
 		private TerrainTool _tool;
+        private bool _decorationLayer;
 		
 		private float _radius = 4;
 
@@ -63,10 +65,13 @@ namespace TeamStor.TBS.Map.Editor.States
 			get { return false; }
 		}
 
-		public override void OnEnter(GameState previousState)
-		{
+        private void UpdateSelectTileMenu(bool doTween = false)
+        {
+            if(BaseState.SelectionMenus.ContainsKey("select-tile-menu"))
+                BaseState.SelectionMenus.Remove("select-tile-menu");
+
             List<string> tiles = new List<string>();
-            foreach(TerrainTile tile in TerrainTile.Tiles.Values)
+            foreach(TerrainTile tile in TerrainTile.Tiles.Values.Where((t) => t.Decoration == _decorationLayer))
                 tiles.Add(tile.Name);
 
             BaseState.SelectionMenus.Add("select-tile-menu", new SelectionMenu
@@ -75,8 +80,14 @@ namespace TeamStor.TBS.Map.Editor.States
                 Entries = tiles,
                 Rectangle = new TweenedRectangle(Game, new Rectangle(-250, 114, 210, 15 + 12))
             });
-			
-			BaseState.SelectionMenus["select-tile-menu"].Rectangle.TweenTo(new Rectangle(48, 114, 210, 15 + 12), TweenEaseType.EaseOutQuad, previousState == null ? 0.65f : 0f);
+
+            BaseState.SelectionMenus["select-tile-menu"].Rectangle.TweenTo(new Rectangle(48, 114, 210, 15 + 12), TweenEaseType.EaseOutQuad, doTween ? 0.65f : 0f);
+
+        }
+
+        public override void OnEnter(GameState previousState)
+		{
+            UpdateSelectTileMenu(previousState == null);
 			
 			BaseState.Buttons.Add("tool-paintone", new Button
 			{
@@ -116,16 +127,34 @@ namespace TeamStor.TBS.Map.Editor.States
 			});
 			
 			BaseState.Buttons["tool-rectangle"].Position.TweenTo(new Vector2(48, 114 + 31 + 32 * 2), TweenEaseType.EaseOutQuad, previousState == null ? 0.65f : 0f);
-		}
 
-		public override void OnLeave(GameState nextState)
+            BaseState.Buttons.Add("change-layer", new Button
+            {
+                Text = "",
+                Icon = Assets.Get<Texture2D>("textures/editor/terrain_edit/icon_terrainlayer.png"),
+                Position = new TweenedVector2(Game, new Vector2(-250, 118 + 31 + 32 * 3)),
+
+                Active = false,
+                Clicked = (btn) => 
+                {
+                    _decorationLayer = !_decorationLayer;
+                    UpdateSelectTileMenu();
+                },
+                Font = Game.DefaultFonts.Normal
+            });
+
+            BaseState.Buttons["change-layer"].Position.TweenTo(new Vector2(48, 118 + 31 + 32 * 3), TweenEaseType.EaseOutQuad, previousState == null ? 0.65f : 0f);
+        }
+
+        public override void OnLeave(GameState nextState)
 		{
             BaseState.SelectionMenus.Remove("select-tile-menu");
 			
 			BaseState.Buttons.Remove("tool-paintone");
 			BaseState.Buttons.Remove("tool-paintradius");
 			BaseState.Buttons.Remove("tool-rectangle");
-		}
+            BaseState.Buttons.Remove("change-layer");
+        }
 
         public override void Update(double deltaTime, double totalTime, long count)
         {
@@ -134,6 +163,8 @@ namespace TeamStor.TBS.Map.Editor.States
 	        BaseState.Buttons["tool-paintone"].Active = _tool == TerrainTool.PaintOne;
 	        BaseState.Buttons["tool-paintradius"].Active = _tool == TerrainTool.PaintRadius;
 	        BaseState.Buttons["tool-rectangle"].Active = _tool == TerrainTool.PaintRectangle;
+
+            BaseState.Buttons["change-layer"].Icon = Assets.Get<Texture2D>("textures/editor/terrain_edit/icon_" + (_decorationLayer ? "decorationlayer" : "terrainlayer") + ".png");
 
 	        if(BaseState.Buttons["tool-paintone"].Position.IsComplete)
 	        {
@@ -146,15 +177,18 @@ namespace TeamStor.TBS.Map.Editor.States
 		        BaseState.Buttons["tool-rectangle"].Position.TweenTo(new Vector2(48,
 			        BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Y +
 			        BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Height + 4 + 32 * 2), TweenEaseType.Linear, 0);
-	        }
+                BaseState.Buttons["change-layer"].Position.TweenTo(new Vector2(48,
+                    BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Y +
+                    BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Height + 8 + 32 * 3), TweenEaseType.Linear, 0);
+            }
 
-	        if(!BaseState.IsPointObscured(Input.MousePosition))
+            if(!BaseState.IsPointObscured(Input.MousePosition))
 	        {
 		        switch(_tool)
 		        {
 			        case TerrainTool.PaintOne:
 				        if(Input.Mouse(MouseButton.Left))
-							BaseState.MapData.SetTileIdAt(SelectedTile.X, SelectedTile.Y,
+							BaseState.MapData.SetTileIdAt(_decorationLayer, SelectedTile.X, SelectedTile.Y,
 								TerrainTile.FindByName(BaseState.SelectionMenus["select-tile-menu"].SelectedValue).Id);
 				        break;
 				        
@@ -166,7 +200,7 @@ namespace TeamStor.TBS.Map.Editor.States
 					        for(int x = _rectangleToolRect.X; x <= _rectangleToolRect.X + _rectangleToolRect.Width; x++)
 					        {
 						        for(int y = _rectangleToolRect.Y; y <= _rectangleToolRect.Y + _rectangleToolRect.Height; y++)
-							        BaseState.MapData.SetTileIdAt(x, y,
+							        BaseState.MapData.SetTileIdAt(_decorationLayer, x, y,
 								        TerrainTile.FindByName(BaseState.SelectionMenus["select-tile-menu"].SelectedValue).Id);
 					        }
 
@@ -192,6 +226,8 @@ namespace TeamStor.TBS.Map.Editor.States
 					return "Place with radius";
 				if(!BaseState.Buttons["tool-rectangle"].Active && BaseState.Buttons["tool-rectangle"].Rectangle.Contains(Input.MousePosition))
 					return "Place in rectangle";
+                if(BaseState.Buttons["change-layer"].Rectangle.Contains(Input.MousePosition))
+                    return _decorationLayer ? "Click to use terrain layer" : "Click to use decoration layer";
 
 				return "";
 			}

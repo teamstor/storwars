@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using TeamStor.Engine.Graphics;
 
 namespace TeamStor.TBS.Map.Tiles
 {
@@ -24,15 +26,18 @@ namespace TeamStor.TBS.Map.Tiles
             private set;
         }
 
-        public AnimatedTerrainTile(byte id, string name, Point textureSlot, int fps, int frames, bool canWalkOn = true) : base(id, name, textureSlot, canWalkOn)
+        public AnimatedTerrainTile(byte id, string name, Point textureSlot, bool decoration, int fps, int frames, bool canWalkOn = true) : 
+            base(id, name, textureSlot, decoration, canWalkOn)
         {
             FPS = fps;
             Frames = frames;
         }
 
-        public override Point TextureSlot(double time, Point pos)
+        public override void Draw(Engine.Graphics.SpriteBatch batch, Texture2D tileTexture, double time, Point pos, MapData data)
         {
-            return new Point(base.TextureSlot(time, pos).X + (int)((time * FPS) % Frames), base.TextureSlot(time, pos).Y);
+            TextureSlot = new Point(TextureSlot.X + (int)((time * FPS) % Frames), TextureSlot.Y);
+            base.Draw(batch, tileTexture, time, pos, data);
+            TextureSlot = new Point(TextureSlot.X - (int)((time * FPS) % Frames), TextureSlot.Y);
         }
     }
 }
