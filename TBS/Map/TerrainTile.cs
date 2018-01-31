@@ -77,13 +77,13 @@ namespace TeamStor.TBS.Map
         /// A stone. :O
         /// </summary>
         public static TerrainTile Stone =
-            new TerrainTile(9, "Stone", new Point(10, 0), true, false, false);
+            new TerrainTile(9, "Stone", new Point(14, 0), true, false, false);
 
         /// <summary>
         /// Empty tile for the decoration layer.
         /// </summary>
         public static TerrainTile DecorationEmpty =
-            new TerrainTile(100, "Empty", new Point(15), true);
+            new TerrainTile(255, "Empty", new Point(15), true);
 
         /// <summary>
         /// Tile ID used in map data.

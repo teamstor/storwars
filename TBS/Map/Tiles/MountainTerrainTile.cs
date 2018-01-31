@@ -19,29 +19,93 @@ namespace TeamStor.TBS.Map.Tiles
         {
         }
 
+        private bool IsCompleteMountain(Point pos, MapData data)
+        {
+            for(int x = pos.X - 1; x <= pos.X + 1; x++)
+            {
+                for(int y = pos.Y - 1; y <= pos.Y + 1; y++)
+                {
+                    if(x < 0 || y < 0 || x >= data.Width || y >= data.Height)
+                        return false;
+                    if(data.GetTileIdAt(true, x, y) != Id)
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
         public override void Draw(Engine.Graphics.SpriteBatch batch, Texture2D tileTexture, double time, Point pos, MapData data)
         {
-            int tileLeft = -1;
-            int tileRight = -1;
-            int tileUp = -1;
-            int tileDown = -1;
-
-            if(pos.X - 1 >= 0)
-                tileLeft = data.GetTileIdAt(true, pos.X - 1, pos.Y);
-
-            if(pos.X + 1 < data.Width)
-                tileRight = data.GetTileIdAt(true, pos.X + 1, pos.Y);
-
-            if(pos.Y - 1 >= 0)
-                tileUp = data.GetTileIdAt(true, pos.X, pos.Y - 1);
-
-            if(pos.Y + 1 < data.Height)
-                tileDown = data.GetTileIdAt(true, pos.X, pos.Y + 1);
-
             Point textureSlot = new Point(10, 0);
             Vector2 offset = Vector2.Zero;
             float rotation = 0;
             SpriteEffects effect = SpriteEffects.None;
+            
+            if(IsCompleteMountain(pos, data))
+                textureSlot = new Point(11, 0);
+            else
+            {
+                if(IsCompleteMountain(pos + new Point(1, 0), data) && 
+                   IsCompleteMountain(pos + new Point(0, 1), data))
+                    textureSlot = new Point(13, 0);
+                else if(IsCompleteMountain(pos + new Point(-1, 0), data) &&
+                        IsCompleteMountain(pos + new Point(0, 1), data))
+                {
+                    textureSlot = new Point(13, 0);
+                    effect = SpriteEffects.FlipHorizontally;
+                }
+                else if(IsCompleteMountain(pos + new Point(1, 0), data) &&
+                        IsCompleteMountain(pos + new Point(0, -1), data))
+                {
+                    textureSlot = new Point(13, 0);
+                    effect = SpriteEffects.FlipVertically;
+                }
+                else if(IsCompleteMountain(pos + new Point(-1, 0), data) &&
+                        IsCompleteMountain(pos + new Point(0, -1), data))
+                {
+                    textureSlot = new Point(13, 0);
+                    effect = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
+                }
+                else if(IsCompleteMountain(pos + new Point(1, 0), data))
+                {
+                    textureSlot = new Point(9, 0);
+                    effect = SpriteEffects.FlipHorizontally;
+                }
+                else if(IsCompleteMountain(pos + new Point(0, -1), data))
+                {
+                    textureSlot = new Point(9, 0);
+                    rotation = MathHelper.PiOver2;
+                    offset = new Vector2(16, 0);
+                }
+                else if(IsCompleteMountain(pos + new Point(0, 1), data))
+                {
+                    textureSlot = new Point(9, 0);
+                    rotation = MathHelper.Pi + MathHelper.PiOver2;
+                    offset = new Vector2(0, 16);
+                }
+                else if(IsCompleteMountain(pos + new Point(-1, 0), data))
+                    textureSlot = new Point(9, 0);
+                else if(IsCompleteMountain(pos + new Point(-1, -1), data))
+                {
+                    textureSlot = new Point(12, 0);
+                    rotation = MathHelper.PiOver2;
+                    offset = new Vector2(16, 0);
+                }
+                else if(IsCompleteMountain(pos + new Point(1, -1), data))
+                {
+                    textureSlot = new Point(12, 0);
+                    rotation = MathHelper.Pi;
+                    offset = new Vector2(16, 16);
+                }
+                else if(IsCompleteMountain(pos + new Point(1, 1), data))
+                {
+                    textureSlot = new Point(12, 0);
+                    effect = SpriteEffects.FlipHorizontally;
+                }
+                else if(IsCompleteMountain(pos + new Point(-1, 1), data))
+                    textureSlot = new Point(12, 0);
+            }
 
             batch.Texture(
                 new Vector2(pos.X * 16, pos.Y * 16) + offset,

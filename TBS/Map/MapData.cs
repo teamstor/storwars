@@ -6,6 +6,8 @@ using TeamStor.Engine.Graphics;
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 using Game = TeamStor.Engine.Game;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 namespace TeamStor.TBS.Map
 {
@@ -17,7 +19,7 @@ namespace TeamStor.TBS.Map
 		/// <summary>
 		/// Map info such as name and creator.
 		/// </summary>
-		public MapInfo Info { get; private set; }
+		public MapInfo Info;
 		
 		/// <summary>
 		/// Width of the map in tiles.
@@ -39,7 +41,12 @@ namespace TeamStor.TBS.Map
         /// </summary>
         public byte[] DecorationTiles { get; private set; }
 
-        public MapData(MapInfo info, int width, int height)
+		/// <summary>
+		/// Team spawn points.
+		/// </summary>
+		public Dictionary<Team, Point> SpawnPoints { get; private set; } = new Dictionary<Team, Point>();
+
+		public MapData(MapInfo info, int width, int height)
 		{
 			Info = info;
 			Width = width;
@@ -52,6 +59,72 @@ namespace TeamStor.TBS.Map
                 Tiles[i] = TerrainTile.DeepWater.Id;
             for(int i = 0; i < DecorationTiles.Length; i++)
                 DecorationTiles[i] = TerrainTile.DecorationEmpty.Id;
+			
+			SpawnPoints.Add(Team.Red, Point.Zero);
+			SpawnPoints.Add(Team.Blue, new Point(2, 0));
+			SpawnPoints.Add(Team.Green, new Point(4, 0));
+			SpawnPoints.Add(Team.Yellow, new Point(6, 0));
+		}
+
+		/// <summary>
+		/// Saves this map to a file.
+		/// </summary>
+		/// <param name="filename">The file name to use.</param>
+		public void Save(string filename)
+		{
+			using(BinaryWriter writer = new BinaryWriter(new FileStream(filename, FileMode.Create), Encoding.UTF8))
+			{
+				writer.Write("STOR Map");
+				writer.Write(Info.Name);
+				writer.Write(Info.Creator);
+				writer.Write(Width);
+				writer.Write(Height);
+
+				foreach(byte b in Tiles)
+					writer.Write(b);
+				
+				foreach(byte b in DecorationTiles)
+					writer.Write(b);
+
+				foreach(Team t in Enum.GetValues(typeof(Team)))
+				{
+					writer.Write(SpawnPoints[t].X);
+					writer.Write(SpawnPoints[t].Y);
+				}
+			}
+		}
+		
+		/// <summary>
+		/// Loads a map from a file.
+		/// </summary>
+		/// <param name="filename">The file name to use.</param>
+		public static MapData Load(string filename)
+		{
+			MapInfo info = new MapInfo();
+			int width = 0;
+			int height = 0;
+			
+			using(BinaryReader reader = new BinaryReader(new FileStream(filename, FileMode.Open), Encoding.UTF8))
+			{
+				if(reader.ReadString() != "STOR Map")
+					throw new Exception("Not a valid map file");
+
+				info.Name = reader.ReadString();
+				info.Creator = reader.ReadString();
+				width = reader.ReadInt32();
+				height = reader.ReadInt32();
+				
+				MapData data = new MapData(info, width, height);
+				for(int i = 0; i < width * height; i++)
+					data.SetTileIdAt(false, i % width, i / width, reader.ReadByte());
+				for(int i = 0; i < width * height; i++)
+					data.SetTileIdAt(true, i % width, i / width, reader.ReadByte());
+				
+				foreach(Team t in Enum.GetValues(typeof(Team)))
+					data.SpawnPoints[t] = new Point(reader.ReadInt32(), reader.ReadInt32());
+
+				return data;
+			}
 		}
 
         /// <summary>
@@ -125,6 +198,14 @@ namespace TeamStor.TBS.Map
                 for(int y = 0; y < Math.Min(oldHeight, Height); y++)
                     SetTileIdAt(true, x, y, oldTiles[(y * oldWidth) + x]);
             }
+
+			foreach(Team team in Enum.GetValues(typeof(Team)))
+			{
+				if(SpawnPoints[team].X >= Width)
+					SpawnPoints[team] = new Point(Width - 1, SpawnPoints[team].Y);
+				if(SpawnPoints[team].Y >= Height)
+					SpawnPoints[team] = new Point(SpawnPoints[team].X, Height - 1);
+			}
         }
 
         private static Dictionary<Game, Texture2D> _transitionTextures = new Dictionary<Game, Texture2D>();

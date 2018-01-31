@@ -39,10 +39,10 @@ namespace TeamStor.TBS.Map.Editor.States
 
 		public override void Draw(SpriteBatch batch, Vector2 screenSize)
 		{
-			batch.Rectangle(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.Black * 0.8f);
+			batch.Rectangle(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.Black * 0.6f);
 
-			Vector2 measure = Game.DefaultFonts.Normal.Measure(16, KEY_BINDINGS);
-			batch.Text(SpriteBatch.FontStyle.Normal, 16, KEY_BINDINGS, new Vector2(screenSize.X / 2 - measure.X / 2, screenSize.Y / 2 - measure.Y / 2), Color.White);
+			Vector2 measure = Game.DefaultFonts.Bold.Measure(16, KEY_BINDINGS);
+			batch.Text(SpriteBatch.FontStyle.Bold, 16, KEY_BINDINGS, new Vector2(screenSize.X / 2 - measure.X / 2, screenSize.Y / 2 - measure.Y / 2), Color.White);
 		}
 	}
 }

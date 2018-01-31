@@ -17,6 +17,7 @@ namespace TeamStor.TBS.Map.Tiles
         public TreeTerrainTile(byte id, string name, Point textureSlot, bool decoration, bool canWalkOn = true, bool useTransition = true) : base(id, name, textureSlot, decoration, canWalkOn, useTransition)
         {
         }
+        
         public override void Draw(Engine.Graphics.SpriteBatch batch, Texture2D tileTexture, double time, Point pos, MapData data)
         {
             batch.Texture(
@@ -24,10 +25,7 @@ namespace TeamStor.TBS.Map.Tiles
                 tileTexture,
                 Color.White,
                 Vector2.One,
-                new Rectangle(TextureSlot.X * 16, TextureSlot.Y * 16 - 16, 16, 32),
-                0,
-                null,
-                SpriteEffects.None);
+                new Rectangle(TextureSlot.X * 16, TextureSlot.Y * 16 - 16, 16, 32));
         }
     }
 }

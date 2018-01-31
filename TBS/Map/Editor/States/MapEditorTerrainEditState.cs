@@ -102,37 +102,24 @@ namespace TeamStor.TBS.Map.Editor.States
 			
 			BaseState.Buttons["tool-paintone"].Position.TweenTo(new Vector2(48, 114 + 31), TweenEaseType.EaseOutQuad, previousState == null ? 0.65f : 0f);
 			
-			BaseState.Buttons.Add("tool-paintradius", new Button
-			{
-				Text = "",
-				Icon = Assets.Get<Texture2D>("textures/editor/terrain_edit/icon_paintradius.png"),
-				Position = new TweenedVector2(Game, new Vector2(-250, 114 + 31 + 32)),
-				
-				Active = false,
-				Clicked = (btn) => { _tool = TerrainTool.PaintRadius; },
-				Font = Game.DefaultFonts.Normal
-			});
-			
-			BaseState.Buttons["tool-paintradius"].Position.TweenTo(new Vector2(48, 114 + 31 + 32), TweenEaseType.EaseOutQuad, previousState == null ? 0.65f : 0f);
-			
 			BaseState.Buttons.Add("tool-rectangle", new Button
 			{
 				Text = "",
 				Icon = Assets.Get<Texture2D>("textures/editor/terrain_edit/icon_rectangle.png"),
-				Position = new TweenedVector2(Game, new Vector2(-250, 114 + 31 + 32 * 2)),
+				Position = new TweenedVector2(Game, new Vector2(-250, 114 + 31 + 32)),
 				
 				Active = false,
 				Clicked = (btn) => { _tool = TerrainTool.PaintRectangle; },
 				Font = Game.DefaultFonts.Normal
 			});
 			
-			BaseState.Buttons["tool-rectangle"].Position.TweenTo(new Vector2(48, 114 + 31 + 32 * 2), TweenEaseType.EaseOutQuad, previousState == null ? 0.65f : 0f);
+			BaseState.Buttons["tool-rectangle"].Position.TweenTo(new Vector2(48, 114 + 31 + 32), TweenEaseType.EaseOutQuad, previousState == null ? 0.65f : 0f);
 
             BaseState.Buttons.Add("change-layer", new Button
             {
                 Text = "",
                 Icon = Assets.Get<Texture2D>("textures/editor/terrain_edit/icon_terrainlayer.png"),
-                Position = new TweenedVector2(Game, new Vector2(-250, 118 + 31 + 32 * 3)),
+                Position = new TweenedVector2(Game, new Vector2(-250, 118 + 31 + 32 * 2)),
 
                 Active = false,
                 Clicked = (btn) => 
@@ -143,7 +130,7 @@ namespace TeamStor.TBS.Map.Editor.States
                 Font = Game.DefaultFonts.Normal
             });
 
-            BaseState.Buttons["change-layer"].Position.TweenTo(new Vector2(48, 118 + 31 + 32 * 3), TweenEaseType.EaseOutQuad, previousState == null ? 0.65f : 0f);
+            BaseState.Buttons["change-layer"].Position.TweenTo(new Vector2(48, 118 + 31 + 32 * 2), TweenEaseType.EaseOutQuad, previousState == null ? 0.65f : 0f);
         }
 
         public override void OnLeave(GameState nextState)
@@ -151,7 +138,6 @@ namespace TeamStor.TBS.Map.Editor.States
             BaseState.SelectionMenus.Remove("select-tile-menu");
 			
 			BaseState.Buttons.Remove("tool-paintone");
-			BaseState.Buttons.Remove("tool-paintradius");
 			BaseState.Buttons.Remove("tool-rectangle");
             BaseState.Buttons.Remove("change-layer");
         }
@@ -161,7 +147,6 @@ namespace TeamStor.TBS.Map.Editor.States
             BaseState.SelectionMenus["select-tile-menu"].Title = "Tiles (selected: " + BaseState.SelectionMenus["select-tile-menu"].SelectedValue + ")";
 	        
 	        BaseState.Buttons["tool-paintone"].Active = _tool == TerrainTool.PaintOne;
-	        BaseState.Buttons["tool-paintradius"].Active = _tool == TerrainTool.PaintRadius;
 	        BaseState.Buttons["tool-rectangle"].Active = _tool == TerrainTool.PaintRectangle;
 
             BaseState.Buttons["change-layer"].Icon = Assets.Get<Texture2D>("textures/editor/terrain_edit/icon_" + (_decorationLayer ? "decorationlayer" : "terrainlayer") + ".png");
@@ -171,15 +156,12 @@ namespace TeamStor.TBS.Map.Editor.States
 		        BaseState.Buttons["tool-paintone"].Position.TweenTo(new Vector2(48,
 			        BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Y +
 			        BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Height + 4), TweenEaseType.Linear, 0);
-		        BaseState.Buttons["tool-paintradius"].Position.TweenTo(new Vector2(48,
-			        BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Y +
-			        BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Height + 4 + 32), TweenEaseType.Linear, 0);
 		        BaseState.Buttons["tool-rectangle"].Position.TweenTo(new Vector2(48,
 			        BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Y +
-			        BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Height + 4 + 32 * 2), TweenEaseType.Linear, 0);
+			        BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Height + 4 + 32), TweenEaseType.Linear, 0);
                 BaseState.Buttons["change-layer"].Position.TweenTo(new Vector2(48,
                     BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Y +
-                    BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Height + 8 + 32 * 3), TweenEaseType.Linear, 0);
+                    BaseState.SelectionMenus["select-tile-menu"].Rectangle.Value.Height + 8 + 32 * 2), TweenEaseType.Linear, 0);
             }
 
             if(!BaseState.IsPointObscured(Input.MousePosition))
@@ -222,8 +204,6 @@ namespace TeamStor.TBS.Map.Editor.States
 			{
 				if(!BaseState.Buttons["tool-paintone"].Active && BaseState.Buttons["tool-paintone"].Rectangle.Contains(Input.MousePosition))
 					return "Place tiles";
-				if(!BaseState.Buttons["tool-paintradius"].Active && BaseState.Buttons["tool-paintradius"].Rectangle.Contains(Input.MousePosition))
-					return "Place with radius";
 				if(!BaseState.Buttons["tool-rectangle"].Active && BaseState.Buttons["tool-rectangle"].Rectangle.Contains(Input.MousePosition))
 					return "Place in rectangle";
                 if(BaseState.Buttons["change-layer"].Rectangle.Contains(Input.MousePosition))

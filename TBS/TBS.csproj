@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -43,12 +44,12 @@
     <Compile Include="Map\Editor\Camera.cs" />
     <Compile Include="Map\Editor\MapEditorState.cs" />
     <Compile Include="Map\Editor\SelectionMenu.cs" />
-    <Compile Include="Map\Editor\Slider.cs" />
     <Compile Include="Map\Editor\States\MapEditorEditInfoState.cs" />
     <Compile Include="Map\Editor\States\MapEditorModeState.cs" />
     <Compile Include="Map\Editor\States\MapEditorShowKeybindsState.cs" />
     <Compile Include="Map\Editor\States\MapEditorSpawnPointEditState.cs" />
     <Compile Include="Map\Editor\States\MapEditorTerrainEditState.cs" />
+    <Compile Include="Map\Editor\TextField.cs" />
     <Compile Include="Map\MapData.cs" />
     <Compile Include="Map\MapInfo.cs" />
     <Compile Include="Map\TerrainTile.cs" />
@@ -58,6 +59,7 @@
     <Compile Include="Map\Tiles\AnimatedTerrainTile.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Team.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\team-stor-engine\TeamStor.Engine\TeamStor.Engine.csproj">

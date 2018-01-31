@@ -3,11 +3,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework.Input;
+using System.Windows.Forms;
 using TeamStor.Engine;
 using TeamStor.Engine.Graphics;
 using TeamStor.Engine.Tween;
 using TeamStor.TBS.Map.Editor.States;
+using Keys = Microsoft.Xna.Framework.Input.Keys;
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 
 namespace TeamStor.TBS.Map.Editor
@@ -33,6 +34,7 @@ namespace TeamStor.TBS.Map.Editor
 		public MapData MapData;
 		public Dictionary<string, Button> Buttons = new Dictionary<string, Button>();
 		public Dictionary<string, SelectionMenu> SelectionMenus = new Dictionary<string, SelectionMenu>();
+		public Dictionary<string, TextField> TextFields = new Dictionary<string, TextField>();
 
 		public Camera Camera { get; private set; }
 		
@@ -134,18 +136,38 @@ namespace TeamStor.TBS.Map.Editor
 				Icon = Assets.Get<Texture2D>("textures/editor/icon_load.png"),
 				Position = new TweenedVector2(Game, new Vector2(-200, 118 + 32 * 4)),
 				Font = Game.DefaultFonts.Normal,
-				Clicked = (btn) => { /* TODO */ },
+				Clicked = (btn) =>
+				{
+					OpenFileDialog dialog = new OpenFileDialog();
+					
+					dialog.Filter = "Map files (*.tsmap)|*.tsmap|All files (*.*)|*.*";
+					if(dialog.ShowDialog() == DialogResult.OK)
+						MapData = MapData.Load(dialog.FileName);
+					
+					dialog.Dispose();
+					Application.DoEvents();
+				},
 
 				Active = false
 			});
 			
-			Buttons.Add("exit-save", new Button
+			Buttons.Add("save", new Button
 			{
 				Text = "",
 				Icon = Assets.Get<Texture2D>("textures/editor/icon_save.png"),
 				Position = new TweenedVector2(Game, new Vector2(-200, 118 + 32 * 5)),
 				Font = Game.DefaultFonts.Normal,
-				Clicked = (btn) => { /* TODO */ },
+				Clicked = (btn) =>
+				{
+					SaveFileDialog dialog = new SaveFileDialog();
+					
+					dialog.Filter = "Map files (*.tsmap)|*.tsmap|All files (*.*)|*.*";
+					if(dialog.ShowDialog() == DialogResult.OK)
+						MapData.Save(dialog.FileName);
+					
+					dialog.Dispose();
+					Application.DoEvents();
+				},
 
 				Active = false
 			});
@@ -167,7 +189,7 @@ namespace TeamStor.TBS.Map.Editor
 			Buttons["keybinds-help-mode"].Position.TweenTo(new Vector2(10, 114 + 32 * 3), TweenEaseType.EaseOutQuad, 0.65f);
 			
 			Buttons["load"].Position.TweenTo(new Vector2(10, 118 + 32 * 4), TweenEaseType.EaseOutQuad, 0.65f);
-			Buttons["exit-save"].Position.TweenTo(new Vector2(10, 118 + 32 * 5), TweenEaseType.EaseOutQuad, 0.65f);
+			Buttons["save"].Position.TweenTo(new Vector2(10, 118 + 32 * 5), TweenEaseType.EaseOutQuad, 0.65f);
 			Buttons["exit"].Position.TweenTo(new Vector2(10, 118 + 32 * 6), TweenEaseType.EaseOutQuad, 0.65f);
 
             _topTextY = new TweenedDouble(Game, -300);
@@ -204,10 +226,10 @@ namespace TeamStor.TBS.Map.Editor
 				
 				if(!Buttons["load"].Active && Buttons["load"].Rectangle.Contains(Input.MousePosition))
 					return "Load map file";
-				if(!Buttons["exit-save"].Active && Buttons["exit-save"].Rectangle.Contains(Input.MousePosition))
-					return "Save map file and exit";
+				if(!Buttons["save"].Active && Buttons["save"].Rectangle.Contains(Input.MousePosition))
+					return "Save map file";
 				if(!Buttons["exit"].Active && Buttons["exit"].Rectangle.Contains(Input.MousePosition))
-					return "Exit without saving";
+					return "Exit";
 
 				return "No action selected";
 			}
@@ -215,17 +237,20 @@ namespace TeamStor.TBS.Map.Editor
 
 		public override void Update(double deltaTime, double totalTime, long count)
 		{
-			if(Input.KeyPressed(Keys.D3))
-				MapData.Resize(MapData.Width + 1, MapData.Height);
-			
-			if(Input.KeyPressed(Keys.D5))
-				MapData.Resize(MapData.Width, MapData.Height + 1);
-			
-			if(Input.KeyPressed(Keys.D4) && MapData.Width > 1)
-				MapData.Resize(MapData.Width - 1, MapData.Height);
-			
-			if(Input.KeyPressed(Keys.D6) && MapData.Height > 1)
-				MapData.Resize(MapData.Width, MapData.Height - 1);
+			if(!CurrentState.PauseEditor)
+			{
+				if(Input.KeyPressed(Keys.D3))
+					MapData.Resize(MapData.Width + 1, MapData.Height);
+
+				if(Input.KeyPressed(Keys.D5))
+					MapData.Resize(MapData.Width, MapData.Height + 1);
+
+				if(Input.KeyPressed(Keys.D4) && MapData.Width > 1)
+					MapData.Resize(MapData.Width - 1, MapData.Height);
+
+				if(Input.KeyPressed(Keys.D6) && MapData.Height > 1)
+					MapData.Resize(MapData.Width, MapData.Height - 1);
+			}
 
 			Camera.Update(deltaTime, totalTime);
 			
@@ -239,6 +264,9 @@ namespace TeamStor.TBS.Map.Editor
 
             foreach(SelectionMenu menu in SelectionMenus.Values.ToArray())
                 menu.Update(Game);
+			
+			foreach(TextField field in TextFields.Values.ToArray())
+				field.Update(Game);
 
             string str =
                "TBS Map Editor\n" +
@@ -270,6 +298,12 @@ namespace TeamStor.TBS.Map.Editor
                 if(menu.Rectangle.Value.Contains(point))
                     return true;
             }
+			
+			foreach(TextField field in TextFields.Values)
+			{
+				if(field.Rectangle.Contains(point))
+					return true;
+			}
 
             return false;
 		}
@@ -328,6 +362,9 @@ namespace TeamStor.TBS.Map.Editor
 
             foreach(SelectionMenu menu in SelectionMenus.Values)
                 menu.Draw(Game);
+			
+			foreach(TextField field in TextFields.Values)
+				field.Draw(Game);
 
             batch.Rectangle(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Color.Black * _fade);
 		}
