@@ -23,13 +23,21 @@ namespace TeamStor.TBS.Map
         /// Deep water tile.
         /// </summary>
         public static AnimatedTerrainTile DeepWater =
-            new AnimatedTerrainTile(0, "Deep Water", new Point(0, 0), false, 2, 3);
+            new AnimatedTerrainTile(0, "Deep Water", new Point[] {
+                new Point(0, 0),
+                new Point(1, 0),
+                new Point(2, 0),
+                new Point(2, 1)
+            }, false, 2);
 
         /// <summary>
         /// Shallow water tile.
         /// </summary>
-        public static TerrainTile ShallowWater =
-            new TerrainTile(1, "Shallow Water", new Point(0, 1), false);
+        public static AnimatedTerrainTile ShallowWater =
+            new AnimatedTerrainTile(1, "Shallow Water", new Point[] {
+                new Point(0, 1),
+                new Point(1, 1)
+            }, false, 1);
 
         /// <summary>
         /// Grass tile.
@@ -78,6 +86,12 @@ namespace TeamStor.TBS.Map
         /// </summary>
         public static TerrainTile Stone =
             new TerrainTile(9, "Stone", new Point(14, 0), true, false, false);
+
+        /// <summary>
+        /// Wooden planks.
+        /// </summary>
+        public static TerrainTile Planks =
+            new TerrainTile(10, "Planks", new Point(3, 1), false, true, false);
 
         /// <summary>
         /// Empty tile for the decoration layer.

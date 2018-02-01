@@ -20,14 +20,13 @@ namespace TeamStor.TBS.Map.Tiles
             private set;
         } = 10;
 
-        public int Frames
+        public Point[] Frames
         {
-            get;
-            private set;
+            get; private set;
         }
 
-        public AnimatedTerrainTile(byte id, string name, Point textureSlot, bool decoration, int fps, int frames, bool canWalkOn = true) : 
-            base(id, name, textureSlot, decoration, canWalkOn)
+        public AnimatedTerrainTile(byte id, string name, Point[] frames, bool decoration, int fps, bool canWalkOn = true) : 
+            base(id, name, frames[0], decoration, canWalkOn)
         {
             FPS = fps;
             Frames = frames;
@@ -35,9 +34,10 @@ namespace TeamStor.TBS.Map.Tiles
 
         public override void Draw(Engine.Graphics.SpriteBatch batch, Texture2D tileTexture, double time, Point pos, MapData data)
         {
-            TextureSlot = new Point(TextureSlot.X + (int)((time * FPS) % Frames), TextureSlot.Y);
+            Point oldTextureSlot = TextureSlot;
+            TextureSlot = Frames[(int)((time * FPS) % Frames.Length)];
             base.Draw(batch, tileTexture, time, pos, data);
-            TextureSlot = new Point(TextureSlot.X - (int)((time * FPS) % Frames), TextureSlot.Y);
+            TextureSlot = oldTextureSlot;
         }
     }
 }

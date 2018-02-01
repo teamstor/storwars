@@ -160,12 +160,15 @@ namespace TeamStor.TBS.Map
 		/// </summary>
 		/// <param name="newWidth">The new width</param>
 		/// <param name="newHeight">The new height</param>
-		public void Resize(int newWidth, int newHeight)
+		public void Resize(int newWidth, int newHeight, int xOffset = -1, int yOffset = -1)
 		{
             int oldWidth = Width;
             int oldHeight = Height;
 
-			Width = newWidth;
+            int xOffset = newWidth < oldWidth ? 0 : (int)Math.Floor((double)(newWidth - oldWidth / 2.0));
+            int yOffset = newHeight < oldHeight ? 0 : (int)Math.Floor((double)(newHeight - oldHeight / 2.0));
+
+            Width = newWidth;
 			Height = newHeight;
 			
 			byte[] tiles = Tiles;
