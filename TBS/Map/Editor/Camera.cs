@@ -11,6 +11,18 @@ namespace TeamStor.TBS.Map.Editor
 	public class Camera
 	{
 		private MapEditorState _state;
+        private Vector2 _prevTotalSize;
+
+        /// <summary>
+        /// Total size of the map on screen.
+        /// </summary>
+        public Vector2 TotalSizeOnScreen
+        {
+            get
+            {
+                return new Vector2(_state.MapData.Width * 16 * Zoom, _state.MapData.Height * 16 * Zoom);
+            }
+        }
 		
 		/// <summary>
 		/// Current zoom.
@@ -37,7 +49,8 @@ namespace TeamStor.TBS.Map.Editor
 		{
 			_state = state;
 			Zoom = new TweenedDouble(state.Game, 2);
-		}
+            _prevTotalSize = TotalSizeOnScreen;
+        }
 
 		public void Update(double deltaTime, double totalTime)
 		{
@@ -58,6 +71,10 @@ namespace TeamStor.TBS.Map.Editor
                 if(_state.Input.Mouse(MouseButton.Right))
                     Translation += _state.Input.MouseDelta;
             }
+
+            Translation -= (TotalSizeOnScreen - _prevTotalSize) / 2;
+
+            _prevTotalSize = TotalSizeOnScreen;
 
             if(Translation.X > 200)
                 Translation.X = 200;

@@ -11,10 +11,12 @@ namespace TeamStor.TBS.Map.Editor.States
 			"Right-click: Move camera\n\n" +
 			"1: Zoom out\n" +
 			"2: Zoom in\n\n" +
-			"3: Grow map horizontally\n" +
+			"3: Grow map to the right\n" +
 			"4: Shrink map horizontally\n" +
-			"5: Grow map vertically\n" +
-			"6: Shrink map vertically";
+			"5: Grow map down\n" +
+			"6: Shrink map vertically\n" +
+            "7: Grow map to the left\n" +
+            "8: Grow map up";
 		
 		public override bool PauseEditor
 		{

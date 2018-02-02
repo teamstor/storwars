@@ -156,7 +156,7 @@ namespace TeamStor.TBS.Map
 		}
 
 		/// <summary>
-		/// Resizes this map. New tiles will be filled with grass.
+		/// Resizes this map. New tiles will be filled with water.
 		/// </summary>
 		/// <param name="newWidth">The new width</param>
 		/// <param name="newHeight">The new height</param>
@@ -165,8 +165,8 @@ namespace TeamStor.TBS.Map
             int oldWidth = Width;
             int oldHeight = Height;
 
-            int xOffset = newWidth < oldWidth ? 0 : (int)Math.Floor((double)(newWidth - oldWidth / 2.0));
-            int yOffset = newHeight < oldHeight ? 0 : (int)Math.Floor((double)(newHeight - oldHeight / 2.0));
+            int xOffset_ = xOffset != -1 ? xOffset : newWidth < oldWidth ? 0 : (int)Math.Floor((newWidth - oldWidth) / 2.0);
+            int yOffset_ = yOffset != -1 ? yOffset : newHeight < oldHeight ? 0 : (int)Math.Floor((newHeight - oldHeight) / 2.0);
 
             Width = newWidth;
 			Height = newHeight;
@@ -184,7 +184,7 @@ namespace TeamStor.TBS.Map
             for(int x = 0; x < Math.Min(oldWidth, Width); x++)
             {
                 for(int y = 0; y < Math.Min(oldHeight, Height); y++)
-                    SetTileIdAt(false, x, y, oldTiles[(y * oldWidth) + x]);
+                    SetTileIdAt(false, x + xOffset_, y + yOffset_, oldTiles[(y * oldWidth) + x]);
             }
 
             tiles = DecorationTiles;
@@ -199,12 +199,14 @@ namespace TeamStor.TBS.Map
             for(int x = 0; x < Math.Min(oldWidth, Width); x++)
             {
                 for(int y = 0; y < Math.Min(oldHeight, Height); y++)
-                    SetTileIdAt(true, x, y, oldTiles[(y * oldWidth) + x]);
+                    SetTileIdAt(true, x + xOffset_, y + yOffset_, oldTiles[(y * oldWidth) + x]);
             }
 
 			foreach(Team team in Enum.GetValues(typeof(Team)))
 			{
-				if(SpawnPoints[team].X >= Width)
+                SpawnPoints[team] = new Point(SpawnPoints[team].X + xOffset_, SpawnPoints[team].Y + yOffset_);
+
+                if(SpawnPoints[team].X >= Width)
 					SpawnPoints[team] = new Point(Width - 1, SpawnPoints[team].Y);
 				if(SpawnPoints[team].Y >= Height)
 					SpawnPoints[team] = new Point(SpawnPoints[team].X, Height - 1);

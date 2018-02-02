@@ -250,9 +250,15 @@ namespace TeamStor.TBS.Map.Editor
 
 				if(Input.KeyPressed(Keys.D6) && MapData.Height > 1)
 					MapData.Resize(MapData.Width, MapData.Height - 1);
-			}
 
-			Camera.Update(deltaTime, totalTime);
+                if(Input.KeyPressed(Keys.D7))
+                    MapData.Resize(MapData.Width + 1, MapData.Height, 1, 0);
+
+                if(Input.KeyPressed(Keys.D8))
+                    MapData.Resize(MapData.Width, MapData.Height + 1, 0, 1);
+            }
+
+            Camera.Update(deltaTime, totalTime);
 			
             Buttons["edit-terrain-mode"].Active = _editMode == EditMode.Terrain;
             Buttons["edit-spawnpoints-mode"].Active = _editMode == EditMode.Spawnpoints;
