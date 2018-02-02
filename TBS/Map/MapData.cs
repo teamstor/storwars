@@ -160,13 +160,13 @@ namespace TeamStor.TBS.Map
 		/// </summary>
 		/// <param name="newWidth">The new width</param>
 		/// <param name="newHeight">The new height</param>
-		public void Resize(int newWidth, int newHeight, int xOffset = -1, int yOffset = -1)
+		public void Resize(int newWidth, int newHeight, int xOffset = int.MinValue, int yOffset = int.MinValue)
 		{
             int oldWidth = Width;
             int oldHeight = Height;
 
-            int xOffset_ = xOffset != -1 ? xOffset : newWidth < oldWidth ? 0 : (int)Math.Floor((newWidth - oldWidth) / 2.0);
-            int yOffset_ = yOffset != -1 ? yOffset : newHeight < oldHeight ? 0 : (int)Math.Floor((newHeight - oldHeight) / 2.0);
+            int xOffset_ = xOffset != int.MinValue ? xOffset : (int)Math.Floor((newWidth - oldWidth) / 2.0);
+            int yOffset_ = yOffset != int.MinValue ? yOffset : (int)Math.Floor((newHeight - oldHeight) / 2.0);
 
             Width = newWidth;
 			Height = newHeight;
@@ -184,7 +184,7 @@ namespace TeamStor.TBS.Map
             for(int x = 0; x < Math.Min(oldWidth, Width); x++)
             {
                 for(int y = 0; y < Math.Min(oldHeight, Height); y++)
-                    SetTileIdAt(false, x + xOffset_, y + yOffset_, oldTiles[(y * oldWidth) + x]);
+                    SetTileIdAt(false, MathHelper.Clamp(x + xOffset_, 0, Width - 1), MathHelper.Clamp(y + yOffset_, 0, Height - 1), oldTiles[(y * oldWidth) + x]);
             }
 
             tiles = DecorationTiles;
@@ -199,13 +199,17 @@ namespace TeamStor.TBS.Map
             for(int x = 0; x < Math.Min(oldWidth, Width); x++)
             {
                 for(int y = 0; y < Math.Min(oldHeight, Height); y++)
-                    SetTileIdAt(true, x + xOffset_, y + yOffset_, oldTiles[(y * oldWidth) + x]);
+                    SetTileIdAt(true, MathHelper.Clamp(x + xOffset_, 0, Width - 1), MathHelper.Clamp(y + yOffset_, 0, Height - 1), oldTiles[(y * oldWidth) + x]);
             }
 
 			foreach(Team team in Enum.GetValues(typeof(Team)))
 			{
                 SpawnPoints[team] = new Point(SpawnPoints[team].X + xOffset_, SpawnPoints[team].Y + yOffset_);
 
+                if(SpawnPoints[team].X < 0)
+                    SpawnPoints[team] = new Point(0, SpawnPoints[team].Y);
+                if(SpawnPoints[team].Y < 0)
+                    SpawnPoints[team] = new Point(SpawnPoints[team].X, 0);
                 if(SpawnPoints[team].X >= Width)
 					SpawnPoints[team] = new Point(Width - 1, SpawnPoints[team].Y);
 				if(SpawnPoints[team].Y >= Height)

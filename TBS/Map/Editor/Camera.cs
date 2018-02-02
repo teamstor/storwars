@@ -12,6 +12,7 @@ namespace TeamStor.TBS.Map.Editor
 	{
 		private MapEditorState _state;
         private Vector2 _prevTotalSize;
+        private Vector2 _prevMapSize;
 
         /// <summary>
         /// Total size of the map on screen.
@@ -50,6 +51,7 @@ namespace TeamStor.TBS.Map.Editor
 			_state = state;
 			Zoom = new TweenedDouble(state.Game, 2);
             _prevTotalSize = TotalSizeOnScreen;
+            _prevMapSize = new Vector2(state.MapData.Width, state.MapData.Height);
         }
 
 		public void Update(double deltaTime, double totalTime)
@@ -59,22 +61,32 @@ namespace TeamStor.TBS.Map.Editor
 				if(_state.Input.KeyPressed(Keys.D2))
 				{
 					if(Zoom.TargetValue <= 4)
-						Zoom.TweenTo(Zoom.TargetValue * 2, TweenEaseType.EaseOutCubic, 0.25);
+						Zoom.TweenTo(Zoom.TargetValue * 2, TweenEaseType.EaseOutCubic, 0.35);
 				}
 
 				if(_state.Input.KeyPressed(Keys.D1))
 				{
 					if(Zoom.TargetValue >= 2)
-						Zoom.TweenTo(Zoom.TargetValue / 2, TweenEaseType.EaseOutCubic, 0.25);
+						Zoom.TweenTo(Zoom.TargetValue / 2, TweenEaseType.EaseOutCubic, 0.35);
 				}
 
                 if(_state.Input.Mouse(MouseButton.Right))
                     Translation += _state.Input.MouseDelta;
             }
 
-            Translation -= (TotalSizeOnScreen - _prevTotalSize) / 2;
+            Vector2 mapSize = new Vector2(_state.MapData.Width, _state.MapData.Height);
+
+            if(mapSize != _prevMapSize)
+                Translation -= (TotalSizeOnScreen - _prevTotalSize) / 2;
+            else
+            {
+                // vet INTE vad som händer här men det funkar
+                Vector2 mouseThing = ((_state.Input.MousePosition - Translation) / _prevTotalSize);
+                Translation -= (TotalSizeOnScreen - _prevTotalSize) * mouseThing;
+            }
 
             _prevTotalSize = TotalSizeOnScreen;
+            _prevMapSize = mapSize;
 
             if(Translation.X > 200)
                 Translation.X = 200;
