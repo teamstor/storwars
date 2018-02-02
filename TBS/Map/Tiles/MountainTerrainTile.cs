@@ -37,74 +37,75 @@ namespace TeamStor.TBS.Map.Tiles
 
         public override void Draw(Engine.Graphics.SpriteBatch batch, Texture2D tileTexture, double time, Point pos, MapData data)
         {
-            Point textureSlot = new Point(10, 0);
+            int texY = TextureSlot.Y;
+            Point textureSlot = new Point(10, texY);
             Vector2 offset = Vector2.Zero;
             float rotation = 0;
             SpriteEffects effect = SpriteEffects.None;
             
             if(IsCompleteMountain(pos, data))
-                textureSlot = new Point(11, 0);
+                textureSlot = new Point(11, texY);
             else
             {
                 if(IsCompleteMountain(pos + new Point(1, 0), data) && 
                    IsCompleteMountain(pos + new Point(0, 1), data))
-                    textureSlot = new Point(13, 0);
+                    textureSlot = new Point(13, texY);
                 else if(IsCompleteMountain(pos + new Point(-1, 0), data) &&
                         IsCompleteMountain(pos + new Point(0, 1), data))
                 {
-                    textureSlot = new Point(13, 0);
+                    textureSlot = new Point(13, texY);
                     effect = SpriteEffects.FlipHorizontally;
                 }
                 else if(IsCompleteMountain(pos + new Point(1, 0), data) &&
                         IsCompleteMountain(pos + new Point(0, -1), data))
                 {
-                    textureSlot = new Point(13, 0);
+                    textureSlot = new Point(13, texY);
                     effect = SpriteEffects.FlipVertically;
                 }
                 else if(IsCompleteMountain(pos + new Point(-1, 0), data) &&
                         IsCompleteMountain(pos + new Point(0, -1), data))
                 {
-                    textureSlot = new Point(13, 0);
+                    textureSlot = new Point(13, texY);
                     effect = SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically;
                 }
                 else if(IsCompleteMountain(pos + new Point(1, 0), data))
                 {
-                    textureSlot = new Point(9, 0);
+                    textureSlot = new Point(9, texY);
                     effect = SpriteEffects.FlipHorizontally;
                 }
                 else if(IsCompleteMountain(pos + new Point(0, -1), data))
                 {
-                    textureSlot = new Point(9, 0);
+                    textureSlot = new Point(9, texY);
                     rotation = MathHelper.PiOver2;
                     offset = new Vector2(16, 0);
                 }
                 else if(IsCompleteMountain(pos + new Point(0, 1), data))
                 {
-                    textureSlot = new Point(9, 0);
+                    textureSlot = new Point(9, texY);
                     rotation = MathHelper.Pi + MathHelper.PiOver2;
                     offset = new Vector2(0, 16);
                 }
                 else if(IsCompleteMountain(pos + new Point(-1, 0), data))
-                    textureSlot = new Point(9, 0);
+                    textureSlot = new Point(9, texY);
                 else if(IsCompleteMountain(pos + new Point(-1, -1), data))
                 {
-                    textureSlot = new Point(12, 0);
+                    textureSlot = new Point(12, texY);
                     rotation = MathHelper.PiOver2;
                     offset = new Vector2(16, 0);
                 }
                 else if(IsCompleteMountain(pos + new Point(1, -1), data))
                 {
-                    textureSlot = new Point(12, 0);
+                    textureSlot = new Point(12, texY);
                     rotation = MathHelper.Pi;
                     offset = new Vector2(16, 16);
                 }
                 else if(IsCompleteMountain(pos + new Point(1, 1), data))
                 {
-                    textureSlot = new Point(12, 0);
+                    textureSlot = new Point(12, texY);
                     effect = SpriteEffects.FlipHorizontally;
                 }
                 else if(IsCompleteMountain(pos + new Point(-1, 1), data))
-                    textureSlot = new Point(12, 0);
+                    textureSlot = new Point(12, texY);
             }
 
             batch.Texture(

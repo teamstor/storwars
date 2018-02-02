@@ -94,6 +94,25 @@ namespace TeamStor.TBS.Map
             new TerrainTile(10, "Planks", new Point(3, 1), false, true, false);
 
         /// <summary>
+        /// Rough grass with stones.
+        /// </summary>
+        public static TerrainTile RoughGrass =
+            new TerrainTile(11, "Rough Grass", new Point(4, 1), false);
+
+        /// <summary>
+        /// Dirt.
+        /// </summary>
+        public static VariationsTerrainTile Dirt =
+            new VariationsTerrainTile(12, "Dirt", 
+                new Point(5, 1), false, 2);
+
+        /// <summary>
+        /// Mesa mountain.
+        /// </summary>
+        public static MountainTerrainTile MesaMountain =
+            new MountainTerrainTile(13, "Mesa Mountain", new Point(9, 1), true, false, false);
+
+        /// <summary>
         /// Empty tile for the decoration layer.
         /// </summary>
         public static TerrainTile DecorationEmpty =
