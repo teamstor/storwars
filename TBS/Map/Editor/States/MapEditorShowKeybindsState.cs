@@ -9,12 +9,7 @@ namespace TeamStor.TBS.Map.Editor.States
 		public const string KEY_BINDINGS = 
 			"Left-click: Select or edit\n" + 
 			"Right-click: Move camera\n\n" +
-			"1: Zoom out\n" +
-			"2: Zoom in\n\n" +
-			"3: Grow map horizontally\n" +
-			"4: Shrink map horizontally\n" +
-			"5: Grow map vertically\n" +
-			"6: Shrink map vertically";
+			"Arrow keys: Grow map (Hold SHIFT to shrink, Hold CTRL to grow by 5)";
 		
 		public override bool PauseEditor
 		{

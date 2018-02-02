@@ -25,9 +25,20 @@ namespace TeamStor.TBS.Map.Tiles
             Variations = variations;
         }
 
+        private static int[] _randomValues = new int[100 * 100];
+        private bool _hasValues = false;
+
         public override void Draw(Engine.Graphics.SpriteBatch batch, Texture2D tileTexture, double time, Point pos, MapData data)
         {
-            int shift = new Random(pos.X ^ pos.Y).Next(0, Variations);
+            if(!_hasValues)
+            {
+                Random random = new Random();
+                for(int i = 0; i < _randomValues.Length; i++)
+                    _randomValues[i] = random.Next();
+
+                _hasValues = true;
+            }
+            int shift = _randomValues[((pos.Y * data.Width) + pos.X) % _randomValues.Length] % Variations;
 
             TextureSlot = new Point(TextureSlot.X + shift, TextureSlot.Y);
             base.Draw(batch, tileTexture, time, pos, data);

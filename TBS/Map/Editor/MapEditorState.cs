@@ -239,20 +239,38 @@ namespace TeamStor.TBS.Map.Editor
 		{
 			if(!CurrentState.PauseEditor)
 			{
-				if(Input.KeyPressed(Keys.D3))
-					MapData.Resize(MapData.Width + 1, MapData.Height);
+                int xadd = Input.Key(Keys.LeftShift) || Input.Key(Keys.RightShift) ? -1 : 1;
+                if(Input.Key(Keys.LeftControl) || Input.Key(Keys.RightControl))
+                    xadd *= 5;
 
-				if(Input.KeyPressed(Keys.D5))
-					MapData.Resize(MapData.Width, MapData.Height + 1);
+                int yadd = xadd;
 
-				if(Input.KeyPressed(Keys.D4) && MapData.Width > 1)
-					MapData.Resize(MapData.Width - 1, MapData.Height);
+                while(MapData.Width + xadd < 1)
+                    xadd++;
 
-				if(Input.KeyPressed(Keys.D6) && MapData.Height > 1)
-					MapData.Resize(MapData.Width, MapData.Height - 1);
-			}
+                while(MapData.Width + xadd > 500)
+                    xadd--;
 
-			Camera.Update(deltaTime, totalTime);
+                while(MapData.Height + yadd < 1)
+                    yadd++;
+
+                while(MapData.Height + yadd > 500)
+                    yadd--;
+
+                if(Input.KeyPressed(Keys.Left))
+                    MapData.Resize(MapData.Width + xadd, MapData.Height, xadd, 0);
+
+                if(Input.KeyPressed(Keys.Right))
+                    MapData.Resize(MapData.Width + xadd, MapData.Height, 0, 0);
+
+                if(Input.KeyPressed(Keys.Up))
+                    MapData.Resize(MapData.Width, MapData.Height + yadd, 0, yadd);
+
+                if(Input.KeyPressed(Keys.Down))
+                    MapData.Resize(MapData.Width, MapData.Height + yadd, 0, 0);
+            }
+
+            Camera.Update(deltaTime, totalTime);
 			
             Buttons["edit-terrain-mode"].Active = _editMode == EditMode.Terrain;
             Buttons["edit-spawnpoints-mode"].Active = _editMode == EditMode.Spawnpoints;
