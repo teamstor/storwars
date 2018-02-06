@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TeamStor.Engine;
 using TeamStor.Engine.Tween;
+using TeamStor.TBS.Gameplay;
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 
 namespace TeamStor.TBS.Map.Editor.States
