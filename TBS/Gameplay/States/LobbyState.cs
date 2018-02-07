@@ -4,25 +4,15 @@ using Microsoft.Xna.Framework.Media;
 using TeamStor.Engine;
 using TeamStor.Engine.Graphics;
 
-namespace TeamStor.TBS.Gameplay
+namespace TeamStor.TBS.Gameplay.States
 {
 	/// <summary>
 	/// Game state where the lobby is set up.
 	/// </summary>
-	public class LobbySetupState : GameState
+	public class LobbyState : GameState
 	{
-		/// <summary>
-		/// Net peer, either server or client.
-		/// </summary>
-		public NetPeer Peer
+		public LobbyState(NetPeer peer)
 		{
-			get;
-			private set;
-		}
-
-		public LobbySetupState(NetPeer peer)
-		{
-			Peer = peer;
 		}
 		
 		public override void OnEnter(GameState previousState)

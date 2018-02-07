@@ -44,8 +44,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Gameplay\GameData.cs" />
-    <Compile Include="Gameplay\GameSessionState.cs" />
+    <Compile Include="Gameplay\OnlineData.cs" />
     <Compile Include="Gameplay\Player.cs" />
+    <Compile Include="Gameplay\States\GameSessionState.cs" />
+    <Compile Include="Gameplay\States\LobbyState.cs" />
     <Compile Include="Gameplay\Team.cs" />
     <Compile Include="Map\Editor\Button.cs" />
     <Compile Include="Map\Editor\Camera.cs" />
@@ -64,7 +66,6 @@
     <Compile Include="Map\Tiles\MountainTerrainTile.cs" />
     <Compile Include="Map\Tiles\VariationsTerrainTile.cs" />
     <Compile Include="Map\Tiles\AnimatedTerrainTile.cs" />
-    <Compile Include="Gameplay\LobbySetupState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

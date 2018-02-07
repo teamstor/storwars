@@ -2,7 +2,7 @@
 using TeamStor.Engine;
 using TeamStor.Engine.Graphics;
 
-namespace TeamStor.TBS.Gameplay
+namespace TeamStor.TBS.Gameplay.States
 {
 	/// <summary>
 	/// Game state when a game session is running.
