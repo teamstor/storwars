@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Building\BuildingData.cs" />
+    <Compile Include="Building\BuildingType.cs" />
+    <Compile Include="Gameplay\Faction.cs" />
     <Compile Include="Gameplay\GameData.cs" />
     <Compile Include="Gameplay\OnlineData.cs" />
     <Compile Include="Gameplay\Player.cs" />
