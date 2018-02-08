@@ -6,14 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TeamStor.Engine;
-<<<<<<< HEAD
 using TeamStor.Engine.Graphics;
 using TeamStor.TBS.Gui;
 using Microsoft.Xna.Framework.Graphics;
-=======
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
->>>>>>> 6a8c337794ec51c7baa3878051b031a211e50ec5
-
 namespace TeamStor.TBS.Menu
 {
     class MainMenuState : GameState
@@ -34,7 +30,7 @@ namespace TeamStor.TBS.Menu
 
         public override void OnEnter(GameState previousState)
         {
-            buttonplay = new GuiButton(Assets.Get<Texture2D>("button"), Game.GraphicsDevice);
+            buttonplay = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice);
         }
 
         public override void OnLeave(GameState nextState)
