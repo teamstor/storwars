@@ -33,26 +33,24 @@ namespace TeamStor.TBS.Gui
         public bool isClicked;
         public void update(MouseState mouse)
         {
-            rectangle = new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
+           
+        }
 
-            Rectangle MouseRectangle = new Rectangle(mouse.X, mouse.Y, 1, 1);
+        public void setposition(Vector2 newposition)
+        {
+            Position = newposition;
+        }
 
+<<<<<<< HEAD
+=======
             if (MouseRectangle.Intersects(rectangle))
             {
                 if (colour.A == 255) down = false;
                 if (colour.A == 0) down = true;
                 if(down) colour.A += 3; else colour.A -= 3;
                 if (mouse.LeftButton == ButtonState.Pressed) isClicked = true;
+>>>>>>> 6a8c337794ec51c7baa3878051b031a211e50ec5
 
-            } 
-            
-            else if (colour.A < 255)
-            {
-                colour.A += 3;
-                isClicked = false;
-            }
-        }
-        
         public Rectangle HitBox
         {
             get
@@ -71,7 +69,24 @@ namespace TeamStor.TBS.Gui
         
         public void Update(Engine.Game game, double deltaTime, double totalTime, long count)
         {
-            throw new NotImplementedException();
+            rectangle = new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
+
+            Rectangle MouseRectangle = new Rectangle((int)game.Input.MousePosition.X, (int)game.Input.MousePosition.Y, (int)Size.X, (int)Size.Y);
+
+            if (MouseRectangle.Intersects(rectangle))
+            {
+                if (colour.A == 255) down = false;
+                if (colour.A == 0) down = true;
+                if (down) colour.A += 3; else colour.A -= 3;
+                if (game.Input.MousePressed(Engine.MouseButton.Left)) isClicked = true;
+
+            }
+
+            else if (colour.A < 255)
+            {
+                colour.A += 3;
+                isClicked = false;
+            }
         }
     }
 }
