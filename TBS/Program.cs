@@ -9,7 +9,7 @@ namespace TeamStor.TBS
 		[STAThread]
 		public static void Main(string[] args)
 		{
-			using(Game game = Game.Run(new Menu.MainMenuState(), "data", false))
+			using(Game game = Game.Run(new MapEditorState(), "data", false))
 				game.Run();
 		}
 	}

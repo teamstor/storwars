@@ -57,7 +57,7 @@ namespace TeamStor.TBS.Gameplay
         /// <returns>Online data with a <code>NetServer</code> hosting the game.</returns>
         public static OnlineData StartServer(string name, int port = 9210)
         {
-            NetPeerConfiguration config = new NetPeerConfiguration("team-stor-tbs");
+            NetPeerConfiguration config = new NetPeerConfiguration("team-stor-tbs " + Version.VERSION_NAME);
             config.Port = port;
             
             OnlineData onlineData = new OnlineData();
@@ -77,7 +77,7 @@ namespace TeamStor.TBS.Gameplay
         /// <returns>Online data with a <code>NetServer</code> connecting to the game.</returns>
         public static OnlineData StartConnection(IPEndPoint ip)
         {
-            NetPeerConfiguration config = new NetPeerConfiguration("team-stor-tbs");
+            NetPeerConfiguration config = new NetPeerConfiguration("team-stor-tbs " + Version.VERSION_NAME);
             config.Port = ip.Port;
             
             OnlineData onlineData = new OnlineData();

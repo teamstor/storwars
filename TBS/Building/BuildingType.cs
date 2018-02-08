@@ -31,7 +31,10 @@
         /// </summary>
         House,
         
-        UnitCreator,
+        /// <summary>
+        /// Creates new units.
+        /// </summary>
+        Barracks,
         
         /// <summary>
         /// Provides upgrades to units.
@@ -39,7 +42,7 @@
         Blacksmith,
         
         /// <summary>
-        /// Units can't go through walls.
+        /// Stops units from going through.
         /// </summary>
         Wall,
         

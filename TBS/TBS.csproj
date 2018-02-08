@@ -75,6 +75,7 @@
     <Compile Include="Menu\MainMenuState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\team-stor-engine\TeamStor.Engine\TeamStor.Engine.csproj">
