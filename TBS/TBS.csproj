@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gui\GuiButton.cs" />
+    <Compile Include="Gui\GuiController.cs" />
+    <Compile Include="Gui\GuiElement.cs" />
     <Compile Include="Map\Editor\Button.cs" />
     <Compile Include="Map\Editor\Camera.cs" />
     <Compile Include="Map\Editor\MapEditorState.cs" />
@@ -60,6 +63,7 @@
     <Compile Include="Map\Tiles\MountainTerrainTile.cs" />
     <Compile Include="Map\Tiles\VariationsTerrainTile.cs" />
     <Compile Include="Map\Tiles\AnimatedTerrainTile.cs" />
+    <Compile Include="Menu\MainMenuState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Team.cs" />
