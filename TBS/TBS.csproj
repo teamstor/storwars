@@ -43,11 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Gui\GuiButton.cs" />
     <Compile Include="Gui\GuiController.cs" />
     <Compile Include="Gui\GuiElement.cs" />
-=======
     <Compile Include="Building\BuildingData.cs" />
     <Compile Include="Building\BuildingType.cs" />
     <Compile Include="Gameplay\Faction.cs" />
@@ -57,7 +55,6 @@
     <Compile Include="Gameplay\States\GameSessionState.cs" />
     <Compile Include="Gameplay\States\LobbyState.cs" />
     <Compile Include="Gameplay\Team.cs" />
->>>>>>> b9c47459c1f3ce7874cba479bc935ddb20dad307
     <Compile Include="Map\Editor\Button.cs" />
     <Compile Include="Map\Editor\Camera.cs" />
     <Compile Include="Map\Editor\MapEditorState.cs" />
