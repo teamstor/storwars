@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using TeamStor.Engine;
 using TeamStor.Engine.Graphics;
+using TeamStor.TBS.Gui;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace TeamStor.TBS.Menu
 {
     class MainMenuState : GameState
     {
-        public override void Draw(SpriteBatch batch, Vector2 screenSize)
+
+
+        GuiButton buttonplay;
+
+        public override void Draw(Engine.Graphics.SpriteBatch batch, Vector2 screenSize)
         {
-            throw new NotImplementedException();
+            buttonplay.Draw(Game, batch);
         }
 
         public override void FixedUpdate(long count)
@@ -23,7 +29,7 @@ namespace TeamStor.TBS.Menu
 
         public override void OnEnter(GameState previousState)
         {
-            throw new NotImplementedException();
+            buttonplay = new GuiButton(Assets.Get<Texture2D>("button"), Game.GraphicsDevice);
         }
 
         public override void OnLeave(GameState nextState)
@@ -33,7 +39,7 @@ namespace TeamStor.TBS.Menu
 
         public override void Update(double deltaTime, double totalTime, long count)
         {
-            throw new NotImplementedException();
+
         }
     }
 }
