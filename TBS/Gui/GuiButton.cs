@@ -41,6 +41,15 @@ namespace TeamStor.TBS.Gui
             Position = newposition;
         }
 
+<<<<<<< HEAD
+=======
+            if (MouseRectangle.Intersects(rectangle))
+            {
+                if (colour.A == 255) down = false;
+                if (colour.A == 0) down = true;
+                if(down) colour.A += 3; else colour.A -= 3;
+                if (mouse.LeftButton == ButtonState.Pressed) isClicked = true;
+>>>>>>> 6a8c337794ec51c7baa3878051b031a211e50ec5
 
         public Rectangle HitBox
         {
