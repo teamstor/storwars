@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace TeamStor.TBS
+namespace TeamStor.TBS.Gameplay
 {
 	/// <summary>
 	/// Player team.
