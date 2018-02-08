@@ -75,6 +75,9 @@
     <Compile Include="Menu\MainMenuState.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Unit\UnitAnimation.cs" />
+    <Compile Include="Unit\Unit.cs" />
+    <Compile Include="Unit\UnitData.cs" />
     <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>
