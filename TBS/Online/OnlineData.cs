@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using Lidgren.Network;
 using SharpFont;
 
-namespace TeamStor.TBS.Gameplay
+namespace TeamStor.TBS.Online
 {
     /// <summary>
     /// Data about server and other online things.
@@ -16,14 +16,11 @@ namespace TeamStor.TBS.Gameplay
         /// Name of the server.
         /// </summary>
         public string ServerName { get; private set; } = "";
-        
+
         /// <summary>
         /// IP of the server.
         /// </summary>
-        public IPAddress IP
-        {
-            get { return Client.Configuration.LocalAddress; }
-        }
+        public IPAddress IP { get; private set; }
 
         /// <summary>
         /// Port of the server.
@@ -66,7 +63,10 @@ namespace TeamStor.TBS.Gameplay
             onlineData.Server.Start();
             
             onlineData.Client = new NetClient(config);
-            onlineData.Client.Connect(new IPEndPoint(Socket.SupportsIPv6 ? IPAddress.IPv6Loopback : IPAddress.Loopback, port));
+            onlineData.Client.Start();
+            onlineData.Client.Connect(new IPEndPoint(IPAddress.Loopback, port));
+            
+            onlineData.IP = IPAddress.Loopback;
 
             return onlineData;
         }
@@ -83,7 +83,9 @@ namespace TeamStor.TBS.Gameplay
             OnlineData onlineData = new OnlineData();
                         
             onlineData.Client = new NetClient(config);
+            onlineData.Client.Start();
             onlineData.Client.Connect(ip);
+            onlineData.IP = ip.Address;
 
             return onlineData;
         }

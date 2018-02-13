@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gameplay\States\LobbyState.cs" />
     <Compile Include="Gui\GuiButton.cs" />
     <Compile Include="Gui\GuiController.cs" />
     <Compile Include="Gui\GuiElement.cs" />
@@ -50,10 +51,7 @@
     <Compile Include="Building\BuildingType.cs" />
     <Compile Include="Gameplay\Faction.cs" />
     <Compile Include="Gameplay\GameData.cs" />
-    <Compile Include="Gameplay\OnlineData.cs" />
     <Compile Include="Gameplay\Player.cs" />
-    <Compile Include="Gameplay\States\GameSessionState.cs" />
-    <Compile Include="Gameplay\States\LobbyState.cs" />
     <Compile Include="Gameplay\Team.cs" />
     <Compile Include="Map\Editor\Button.cs" />
     <Compile Include="Map\Editor\Camera.cs" />
@@ -73,6 +71,12 @@
     <Compile Include="Map\Tiles\VariationsTerrainTile.cs" />
     <Compile Include="Map\Tiles\AnimatedTerrainTile.cs" />
     <Compile Include="Menu\MainMenuState.cs" />
+    <Compile Include="Online\OnlineData.cs" />
+    <Compile Include="Online\OnlineErrorState.cs" />
+    <Compile Include="Online\PacketType.cs" />
+    <Compile Include="Online\States\DisconnectedState.cs" />
+    <Compile Include="Online\States\JoinGameState.cs" />
+    <Compile Include="Online\States\TestCreateOrJoinServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unit\UnitAnimation.cs" />

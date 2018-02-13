@@ -17,7 +17,7 @@ namespace TeamStor.TBS.Unit
         /// <summary>
         /// The game session this unit is in.
         /// </summary>
-        public GameSessionState Session;
+        // TODO: public GameSessionState Session;
         
         /// <summary>
         /// The maximum distance this unit can walk in one turn.
