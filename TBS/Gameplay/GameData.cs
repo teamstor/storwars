@@ -13,7 +13,7 @@ namespace TeamStor.TBS.Gameplay
 		/// <summary>
 		/// All players in this game.
 		/// </summary>
-		public Dictionary<int, Player> Players { get; private set; } = new Dictionary<int, Player>();
+		public SortedDictionary<int, Player> Players { get; private set; } = new SortedDictionary<int, Player>();
 
 		/// <summary>
 		/// The local player.

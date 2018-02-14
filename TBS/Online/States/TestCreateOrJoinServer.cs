@@ -31,7 +31,7 @@ namespace TeamStor.TBS.Online.States
             if(Input.Key(Keys.D1))
                 Game.CurrentState = new JoinGameState(OnlineData.StartConnection(new IPEndPoint(IPAddress.Loopback, 9210)));
             if(Input.Key(Keys.D2))
-                Game.CurrentState = new LobbyState(OnlineData.StartServer("Test server"), new MapData(new MapInfo(), 1, 1), Name);
+                Game.CurrentState = new JoinGameState(OnlineData.StartServer("Test server"));
         }
 
         public override void FixedUpdate(long count)
@@ -43,7 +43,7 @@ namespace TeamStor.TBS.Online.States
             batch.Transform = Matrix.CreateScale(2);
             batch.SamplerState = SamplerState.PointClamp;
 
-            Font font = Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf");
+            Font font = Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf", false);
 
             Vector2 measure =
                 font.Measure(8, "1 - Join Server\n2 - Host Server\n\n(name: " + Name + ")");

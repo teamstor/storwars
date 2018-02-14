@@ -18,6 +18,8 @@ namespace TeamStor.TBS.Online.States
         public JoinGameState(OnlineData onlineData)
         {
             _onlineData = onlineData;
+            
+            while(_onlineData.Client.Status == NetPeerStatus.Starting) {}
         }
 
         public override void OnEnter(GameState previousState)
@@ -31,6 +33,13 @@ namespace TeamStor.TBS.Online.States
         public override void Update(double deltaTime, double totalTime, long count)
         {
             NetIncomingMessage message;
+
+            if(_onlineData.IsHost)
+            {
+                while((message = _onlineData.Server.ReadMessage()) != null)
+                    _onlineData.Server.Recycle(message);
+            }
+
             while((message = _onlineData.Client.ReadMessage()) != null)
             {
                 switch(message.MessageType)
@@ -44,9 +53,9 @@ namespace TeamStor.TBS.Online.States
             }
 
             if(_status == NetConnectionStatus.Connected)
-                Game.CurrentState = new LobbyState(_onlineData);
+                Game.CurrentState = new LobbyState(_onlineData, TestCreateOrJoinServerState.Name);
             if(_status == NetConnectionStatus.Disconnected)
-                Game.CurrentState = new DisconnectedState(_onlineData);
+                Game.CurrentState = new DisconnectedState(_onlineData, "Couldn't connect to server");
             if(Input.Key(Keys.Escape))
             {
                 _onlineData.Client.Shutdown("Disconnected");
@@ -63,43 +72,22 @@ namespace TeamStor.TBS.Online.States
             batch.Transform = Matrix.CreateScale(2);
             batch.SamplerState = SamplerState.PointClamp;
 
-            Font font = Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf");
+            Font font = Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf", false);
 
             string text = "Connecting to " + _onlineData.IP + ":" + _onlineData.Port + "...";
 
-            float fade = 0.4f + ((float)(Math.Sin(Game.Time * 10) + 1) * 0.5f) * 0.4f;
-            batch.Text(font, 8, text, screenSize / 4 - font.Measure(8, text) / 2, Color.White * fade);
+            batch.Text(font, 8, text, screenSize / 4 - font.Measure(8, text) / 2, Color.White);
 
-            text = "...";
+            text = "........................";
 
-            switch(_status)
+            for(int i = 0; i < 24; i++)
             {
-                case NetConnectionStatus.InitiatedConnect:
-                    text = "Initiated connect";
-                    break;
-                    
-                case NetConnectionStatus.RespondedConnect:
-                    text = "Responded to connect";
-                    break;
-                    
-                case NetConnectionStatus.ReceivedInitiation:
-                    text = "Recieved initiation";
-                    break;
-                    
-                case NetConnectionStatus.RespondedAwaitingApproval:
-                    text = "Awaiting approval";
-                    break;
-                    
-                case NetConnectionStatus.Connected:
-                    text = "Connected";
-                    break;
-                    
-                case NetConnectionStatus.Disconnected:
-                    text = "Disconnected";
-                    break;
+                float fade = 0.6f * (float)(Math.Sin((Game.Time - i * 0.15f) * 10) + 1) * 0.5f;
+                fade = (int)(fade * 10) / 10f;
+                
+                batch.Text(font, 8, ".", screenSize / 4 - font.Measure(8, text) / 2 + new Vector2(8 * i, 10),
+                    Color.Lerp(Color.White * (0.2f + fade), Color.RoyalBlue * (0.2f + fade), fade));
             }
-                        
-            batch.Text(font, 8, text, screenSize / 4 - font.Measure(8, text) / 2 + new Vector2(0, 10), Color.White * 0.2f);
         }
     }
 }
