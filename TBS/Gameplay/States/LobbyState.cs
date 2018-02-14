@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 using Lidgren.Network;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,6 +24,7 @@ namespace TeamStor.TBS.Gameplay.States
         private GameData _gameData;
 
         private int _currentId;
+        private Vector2 _offset;
 
         private void SendInitialPacket(string name)
         {
@@ -57,6 +60,17 @@ namespace TeamStor.TBS.Gameplay.States
 
         public override void Update(double deltaTime, double totalTime, long count)
         {
+            if(_onlineData.IsHost)
+            {
+                int i = 0;
+                foreach(Player p in _gameData.Players.Values)
+                {
+                    if(Input.Key((Microsoft.Xna.Framework.Input.Keys) ((int)Keys.D1 + i)))
+                        p.ConnectionToServer.Disconnect("Kicked by host");    
+                    i++;
+                }
+            }
+
             NetIncomingMessage message;
             
             if(_onlineData.IsHost)
@@ -101,6 +115,12 @@ namespace TeamStor.TBS.Gameplay.States
                                         
                                         _onlineData.Server.SendMessage(sendMsg, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
                                     }
+                                    
+                                    sendMsg = _onlineData.Server.CreateMessage();
+                                    sendMsg.Write((byte)PacketType.LoadMap);
+                                    sendMsg.Write("test");
+                                        
+                                    _onlineData.Server.SendMessage(sendMsg, message.SenderConnection, NetDeliveryMethod.ReliableUnordered);
                                     break;
                                 
                                 default:
@@ -175,6 +195,20 @@ namespace TeamStor.TBS.Gameplay.States
                                 {
                                 }
                                 break;
+                            
+                            case PacketType.LoadMap:
+                                string map = message.ReadString();
+                                
+                                if(File.Exists("data/maps/" + map + ".tsmap"))
+                                    _gameData.Map = MapData.Load("data/maps/" + map + ".tsmap");
+                                else
+                                    _onlineData.Client.Disconnect("Couldn't find map \"data/maps/" + map + ".tsmap\"");
+                                
+                                break;
+                            
+                            case PacketType.TestSetOffset:
+                                _offset = new Vector2(message.ReadSingle(), message.ReadSingle());
+                                break;
                                 
                             default:
                                 _onlineData.Client.Disconnect("Got unknown packet");
@@ -191,7 +225,7 @@ namespace TeamStor.TBS.Gameplay.States
                             try
                             {
                                 Game.CurrentState =
-                                    new DisconnectedState(_onlineData, "Server says: " + message.ReadString());
+                                    new DisconnectedState(_onlineData, message.ReadString());
                             }
                             catch
                             {
@@ -209,18 +243,41 @@ namespace TeamStor.TBS.Gameplay.States
 
         public override void FixedUpdate(long count)
         {
+            if(_onlineData.IsHost && Input.Mouse(MouseButton.Right) && Input.MouseDelta != Vector2.Zero)
+            {
+                _offset += Input.MouseDelta;
+                
+                NetOutgoingMessage sendMsg = _onlineData.Server.CreateMessage();
+                sendMsg.Write((byte)PacketType.TestSetOffset);
+                sendMsg.Write(_offset.X);
+                sendMsg.Write(_offset.Y);
+                
+                _onlineData.Server.SendToAll(sendMsg, NetDeliveryMethod.Unreliable);
+            }
         }
 
         public override void Draw(SpriteBatch batch, Vector2 screenSize)
         {
-            batch.Transform = Matrix.CreateScale(2);
             batch.SamplerState = SamplerState.PointClamp;
             
             Font font = Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf", false);
+            
+            batch.Transform = Matrix.CreateScale(2) * Matrix.CreateTranslation(_offset.X, _offset.Y, 0);
+            _gameData.Map.Draw(false, Game, Assets, new Rectangle(-(int)_offset.X / 2, -(int)_offset.Y / 2, (int)screenSize.X / 2, (int)screenSize.Y / 2));
+            _gameData.Map.Draw(true, Game, Assets, new Rectangle(-(int)_offset.X / 2, -(int)_offset.Y / 2, (int)screenSize.X / 2, (int)screenSize.Y / 2));
+            batch.Transform = Matrix.CreateScale(2);
 
-            string text = "Is Host: " + _onlineData.IsHost + "\nPlayers: " + _gameData.Players.Count;
+            string text = "Is Host: " + _onlineData.IsHost + "\nMap: " + _gameData.Map.Info.Name + " by " + _gameData.Map.Info.Creator + "\nPlayers: " + _gameData.Players.Count;
+
+            int i = 0;
             foreach(Player p in _gameData.Players.Values)
+            {
                 text += "\nID " + p.Id + ", Name " + p.Name + ", Local " + (_gameData.LocalPlayer == p);
+
+                if(_onlineData.IsHost)
+                    text += " (press " + (i + 1) + " to kick)";
+                i++;
+            }
 
             Vector2 measure = font.Measure(8, text);
             batch.Text(font, 8, text, screenSize / 4 - measure / 2, Color.White);

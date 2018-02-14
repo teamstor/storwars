@@ -19,6 +19,11 @@
         /// <summary>
         /// If sent by server -> new GameData with map specified, disconnect if map is not found in maps/[name]
         /// </summary>
-        LoadMap
+        LoadMap,
+        
+        /// <summary>
+        /// Test packet
+        /// </summary>
+        TestSetOffset
     }
 }

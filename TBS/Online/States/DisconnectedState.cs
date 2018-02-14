@@ -49,7 +49,7 @@ namespace TeamStor.TBS.Online.States
 
             Font font = Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf", false);
 
-            string text = "ERROR: disconnected from server\n" + _reason + "\nPress ESC to return to main menu";
+            string text = _reason + "\nPress ESC to return to main menu";
             Vector2 measure = font.Measure(8, text);
 
             batch.Text(font, 8, text, screenSize / 4 - measure / 2, Color.IndianRed);

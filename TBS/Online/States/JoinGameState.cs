@@ -14,12 +14,12 @@ namespace TeamStor.TBS.Online.States
     {
         private OnlineData _onlineData;
         private NetConnectionStatus _status = NetConnectionStatus.None;
+        private bool _showText;
         
-        public JoinGameState(OnlineData onlineData)
+        public JoinGameState(OnlineData onlineData, bool showText = true)
         {
             _onlineData = onlineData;
-            
-            while(_onlineData.Client.Status == NetPeerStatus.Starting) {}
+            _showText = showText;
         }
 
         public override void OnEnter(GameState previousState)
@@ -76,7 +76,8 @@ namespace TeamStor.TBS.Online.States
 
             string text = "Connecting to " + _onlineData.IP + ":" + _onlineData.Port + "...";
 
-            batch.Text(font, 8, text, screenSize / 4 - font.Measure(8, text) / 2, Color.White);
+            if(_showText)
+                batch.Text(font, 8, text, screenSize / 4 - font.Measure(8, text) / 2, Color.White);
 
             text = "........................";
 
@@ -85,7 +86,7 @@ namespace TeamStor.TBS.Online.States
                 float fade = 0.6f * (float)(Math.Sin((Game.Time - i * 0.15f) * 10) + 1) * 0.5f;
                 fade = (int)(fade * 10) / 10f;
                 
-                batch.Text(font, 8, ".", screenSize / 4 - font.Measure(8, text) / 2 + new Vector2(8 * i, 10),
+                batch.Text(font, 8, ".", screenSize / 4 - font.Measure(8, text) / 2 + new Vector2(8 * i, _showText ? 10 : 0),
                     Color.Lerp(Color.White * (0.2f + fade), Color.RoyalBlue * (0.2f + fade), fade));
             }
         }

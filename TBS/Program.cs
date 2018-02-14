@@ -1,5 +1,6 @@
 ﻿using System;
 using TeamStor.Engine;
+using TeamStor.TBS.Map.Editor;
 using TeamStor.TBS.Online.States;
 
 namespace TeamStor.TBS

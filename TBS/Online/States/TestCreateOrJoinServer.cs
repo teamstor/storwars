@@ -31,7 +31,7 @@ namespace TeamStor.TBS.Online.States
             if(Input.Key(Keys.D1))
                 Game.CurrentState = new JoinGameState(OnlineData.StartConnection(new IPEndPoint(IPAddress.Loopback, 9210)));
             if(Input.Key(Keys.D2))
-                Game.CurrentState = new JoinGameState(OnlineData.StartServer("Test server"));
+                Game.CurrentState = new JoinGameState(OnlineData.StartServer("Test server"), false);
         }
 
         public override void FixedUpdate(long count)
