@@ -71,7 +71,7 @@ namespace TeamStor.TBS.Gui
             Rectangle TextureRectangle = new Rectangle(96, 0, 160, 12);
             if (Rectangle.Contains(game.Input.MousePosition/2))
             {
-              TextureRectangle( )
+                TextureRectangle = new Rectangle(96, 0, 160, 12);
             }
             //look for if the button is pressed. 
             else if (colour.A < 255)
