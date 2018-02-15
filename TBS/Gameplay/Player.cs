@@ -1,6 +1,8 @@
-﻿namespace TeamStor.TBS.Gameplay
+﻿using Lidgren.Network;
+
+namespace TeamStor.TBS.Gameplay
 {
-	public struct Player
+	public class Player
 	{
 		/// <summary>
 		/// Name of the player.
@@ -16,5 +18,11 @@
 		/// Selected team.
 		/// </summary>
 		public Team Team;
+
+		/// <summary>
+		/// The connection this player has to the server.
+		/// This is null if you're not host.
+		/// </summary>
+		public NetConnection ConnectionToServer;
 	}
 }

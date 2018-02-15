@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using Lidgren.Network;
 using SharpFont;
 
-namespace TeamStor.TBS.Gameplay
+namespace TeamStor.TBS.Online
 {
     /// <summary>
     /// Data about server and other online things.
@@ -16,22 +16,16 @@ namespace TeamStor.TBS.Gameplay
         /// Name of the server.
         /// </summary>
         public string ServerName { get; private set; } = "";
-        
+
         /// <summary>
         /// IP of the server.
         /// </summary>
-        public IPAddress IP
-        {
-            get { return Client.Configuration.LocalAddress; }
-        }
+        public IPAddress IP { get; private set; }
 
         /// <summary>
         /// Port of the server.
         /// </summary>
-        public int Port 
-        {
-            get { return Client.Configuration.Port; }
-        }
+        public int Port { get; private set; }
 
         /// <summary>
         /// Network client. Connected to the server.
@@ -56,17 +50,24 @@ namespace TeamStor.TBS.Gameplay
         /// </summary>
         /// <returns>Online data with a <code>NetServer</code> hosting the game.</returns>
         public static OnlineData StartServer(string name, int port = 9210)
-        {
-            NetPeerConfiguration config = new NetPeerConfiguration("team-stor-tbs " + Version.VERSION_NAME);
-            config.Port = port;
-            
+        {            
             OnlineData onlineData = new OnlineData();
+
+            NetPeerConfiguration serverConfig =
+                new NetPeerConfiguration("team-stor-tbs " + Version.VERSION_NAME);
+            serverConfig.EnableUPnP = true;
+            serverConfig.Port = port;
             
-            onlineData.Server = new NetServer(config);
+            onlineData.Server = new NetServer(serverConfig);
             onlineData.Server.Start();
+            // TODO: onlineData.Server.UPnP.ForwardPort(port, "team-stor-tbs");
             
-            onlineData.Client = new NetClient(config);
-            onlineData.Client.Connect(new IPEndPoint(Socket.SupportsIPv6 ? IPAddress.IPv6Loopback : IPAddress.Loopback, port));
+            onlineData.Client = new NetClient(new NetPeerConfiguration("team-stor-tbs " + Version.VERSION_NAME));
+            onlineData.Client.Start();
+            onlineData.Client.Connect(new IPEndPoint(IPAddress.Loopback, port));
+            
+            onlineData.IP = IPAddress.Loopback;
+            onlineData.Port = port;
 
             return onlineData;
         }
@@ -78,12 +79,15 @@ namespace TeamStor.TBS.Gameplay
         public static OnlineData StartConnection(IPEndPoint ip)
         {
             NetPeerConfiguration config = new NetPeerConfiguration("team-stor-tbs " + Version.VERSION_NAME);
-            config.Port = ip.Port;
             
             OnlineData onlineData = new OnlineData();
                         
             onlineData.Client = new NetClient(config);
+            onlineData.Client.Start();
             onlineData.Client.Connect(ip);
+            
+            onlineData.IP = ip.Address;
+            onlineData.Port = ip.Port;
 
             return onlineData;
         }
