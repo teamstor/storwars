@@ -30,7 +30,7 @@ namespace TeamStor.TBS.Menu
 
         public override void OnEnter(GameState previousState)
         {
-            buttonplay = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice);
+            /*buttonplay = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice);*/
         }
 
         public override void OnLeave(GameState nextState)

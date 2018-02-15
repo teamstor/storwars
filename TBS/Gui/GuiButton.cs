@@ -60,7 +60,7 @@ namespace TeamStor.TBS.Gui
         {
             Rectangle rectangle = new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
 
-            if (Rectangle.)
+            /*if (Rectangle.)
             {
                 if (colour.A == 255) down = false;
                 if (colour.A == 0) down = true;
@@ -73,7 +73,7 @@ namespace TeamStor.TBS.Gui
             {
                 colour.A += 3;
                 isClicked = false;
-            }
+            }*/
         }
     }
 }

@@ -43,6 +43,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gameplay\Ingame\Camera.cs" />
+    <Compile Include="Gameplay\Ingame\FogOfWar.cs" />
+    <Compile Include="Gameplay\States\GameplayState.cs" />
     <Compile Include="Gameplay\States\LobbyState.cs" />
     <Compile Include="Gui\GuiButton.cs" />
     <Compile Include="Gui\GuiController.cs" />

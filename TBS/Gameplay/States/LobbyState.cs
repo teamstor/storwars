@@ -24,7 +24,6 @@ namespace TeamStor.TBS.Gameplay.States
         private GameData _gameData;
 
         private int _currentId;
-        private Vector2 _offset;
 
         private void SendInitialPacket(string name)
         {
@@ -206,8 +205,8 @@ namespace TeamStor.TBS.Gameplay.States
                                 
                                 break;
                             
-                            case PacketType.TestSetOffset:
-                                _offset = new Vector2(message.ReadSingle(), message.ReadSingle());
+                            case PacketType.StartGameplay:
+                                Game.CurrentState = new GameplayState();
                                 break;
                                 
                             default:
@@ -243,17 +242,6 @@ namespace TeamStor.TBS.Gameplay.States
 
         public override void FixedUpdate(long count)
         {
-            if(_onlineData.IsHost && Input.Mouse(MouseButton.Right) && Input.MouseDelta != Vector2.Zero)
-            {
-                _offset += Input.MouseDelta;
-                
-                NetOutgoingMessage sendMsg = _onlineData.Server.CreateMessage();
-                sendMsg.Write((byte)PacketType.TestSetOffset);
-                sendMsg.Write(_offset.X);
-                sendMsg.Write(_offset.Y);
-                
-                _onlineData.Server.SendToAll(sendMsg, NetDeliveryMethod.Unreliable);
-            }
         }
 
         public override void Draw(SpriteBatch batch, Vector2 screenSize)
@@ -262,12 +250,7 @@ namespace TeamStor.TBS.Gameplay.States
             
             Font font = Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf", false);
             
-            batch.Transform = Matrix.CreateScale(2) * Matrix.CreateTranslation(_offset.X, _offset.Y, 0);
-            _gameData.Map.Draw(false, Game, Assets, new Rectangle(-(int)_offset.X / 2, -(int)_offset.Y / 2, (int)screenSize.X / 2, (int)screenSize.Y / 2));
-            _gameData.Map.Draw(true, Game, Assets, new Rectangle(-(int)_offset.X / 2, -(int)_offset.Y / 2, (int)screenSize.X / 2, (int)screenSize.Y / 2));
-            batch.Transform = Matrix.CreateScale(2);
-
-            string text = "Is Host: " + _onlineData.IsHost + "\nMap: " + _gameData.Map.Info.Name + " by " + _gameData.Map.Info.Creator + "\nPlayers: " + _gameData.Players.Count;
+            string text = "ENTER to enter game\nIs Host: " + _onlineData.IsHost + "\nMap: " + _gameData.Map.Info.Name + " by " + _gameData.Map.Info.Creator + "\nPlayers: " + _gameData.Players.Count;
 
             int i = 0;
             foreach(Player p in _gameData.Players.Values)
