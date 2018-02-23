@@ -87,7 +87,7 @@ namespace TeamStor.TBS.Online.States
                 fade = (int)(fade * 10) / 10f;
                 
                 batch.Text(font, 8, ".", screenSize / 4 - font.Measure(8, text) / 2 + new Vector2(8 * i, _showText ? 10 : 0),
-                    Color.Lerp(Color.White * (0.2f + fade), Color.RoyalBlue * (0.2f + fade), fade));
+                    Color.Lerp(Color.White * (0.2f + fade), Color.LightBlue * (0.2f + fade), fade));
             }
         }
     }

@@ -6,6 +6,7 @@ using TeamStor.Engine;
 using TeamStor.Engine.Graphics;
 using TeamStor.TBS.Gameplay.States;
 using TeamStor.TBS.Map;
+using TeamStor.TBS.Menu;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 
@@ -32,6 +33,8 @@ namespace TeamStor.TBS.Online.States
                 Game.CurrentState = new JoinGameState(OnlineData.StartConnection(new IPEndPoint(IPAddress.Loopback, 9210)));
             if(Input.Key(Keys.D2))
                 Game.CurrentState = new JoinGameState(OnlineData.StartServer("Test server"), false);
+            if(Input.KeyPressed(Keys.Escape))
+                Game.CurrentState = new MainMenuState();
         }
 
         public override void FixedUpdate(long count)

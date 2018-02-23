@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using TeamStor.Engine;
 using TeamStor.Engine.Graphics;
 using TeamStor.TBS.Gameplay.States;
+using TeamStor.TBS.Menu;
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 
 namespace TeamStor.TBS.Online.States
@@ -35,7 +36,7 @@ namespace TeamStor.TBS.Online.States
         public override void Update(double deltaTime, double totalTime, long count)
         {
             if(Input.Key(Keys.Escape))
-                Game.CurrentState = new TestCreateOrJoinServerState();
+                Game.CurrentState = new MainMenuState();
         }
 
         public override void FixedUpdate(long count)

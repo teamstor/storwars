@@ -62,9 +62,18 @@ namespace TeamStor.TBS.Gui
         {
             //the button itself.
             Font font = game.Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf");
-            Vector2 measure = font.Measure(6, Text);
+            Vector2 measure = font.Measure(5, Text);
             batch.Texture(Position, game.Assets.Get<Texture2D>("textures/Menu_Icons.png"),Color.White, null, TextureRectangle);
-            batch.Text(font, 6, Text, new Vector2(Position.X + 80 - measure.X / 2, Position.Y + 2), Color.White);
+            
+            // om vi hoverar
+            if(TextureRectangle.Y == 0)
+            {
+                batch.Texture(Position, game.Assets.Get<Texture2D>("textures/Menu_Icons.png"), 
+                    Color.Black * ((float)((Math.Sin(game.Time * 8f) + 1) / 2) * 0.4f), null,
+                    TextureRectangle);
+            }
+
+            batch.Text(font, 5, Text, new Vector2(Position.X + 80 - measure.X / 2, Position.Y + 3), Color.White);
         }
         
         public void Update(Engine.Game game, double deltaTime, double totalTime, long count)

@@ -247,6 +247,7 @@ namespace TeamStor.TBS.Gameplay.States
         public override void Draw(SpriteBatch batch, Vector2 screenSize)
         {
             batch.SamplerState = SamplerState.PointClamp;
+            batch.Transform = Matrix.CreateScale(2);
             
             Font font = Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf", false);
             

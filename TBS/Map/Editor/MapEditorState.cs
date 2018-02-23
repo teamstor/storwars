@@ -4,10 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Microsoft.Xna.Framework.Media;
 using TeamStor.Engine;
 using TeamStor.Engine.Graphics;
 using TeamStor.Engine.Tween;
 using TeamStor.TBS.Map.Editor.States;
+using TeamStor.TBS.Menu;
 using Keys = Microsoft.Xna.Framework.Input.Keys;
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 
@@ -178,7 +180,7 @@ namespace TeamStor.TBS.Map.Editor
 				Icon = Assets.Get<Texture2D>("textures/editor/icon_exit.png"),
 				Position = new TweenedVector2(Game, new Vector2(-200, 118 + 32 * 6)),
 				Font = Game.DefaultFonts.Normal,
-				Clicked = (btn) => { },
+				Clicked = (btn) => { Game.CurrentState = new MainMenuState(); },
 
 				Active = false
 			});
@@ -201,11 +203,16 @@ namespace TeamStor.TBS.Map.Editor
             _topTextFade = new TweenedDouble(Game, 2.0);
 			
 			CurrentState = new MapEditorTerrainEditState();
+			
+			MediaPlayer.Play(Assets.Get<Song>("music/map.ogg"));
+			MediaPlayer.Volume = 0.1f;
+			MediaPlayer.IsRepeating = true;
         }
 
         public override void OnLeave(GameState nextState)
 		{
 			CurrentState.OnLeave(null);
+			MediaPlayer.Stop();
 		}
 
 		private string CurrentHelpText
@@ -279,6 +286,9 @@ namespace TeamStor.TBS.Map.Editor
 
             foreach(Button button in Buttons.Values.ToArray())
                 button.Update(Game);
+
+			if(Game.CurrentState != this)
+				return;
 
             foreach(SelectionMenu menu in SelectionMenus.Values.ToArray())
                 menu.Update(Game);
