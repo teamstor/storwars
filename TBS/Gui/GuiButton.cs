@@ -20,7 +20,8 @@ namespace TeamStor.TBS.Gui
         public Vector2 Size = new Vector2(160, 12);
 
         private Rectangle TextureRectangle;
-       
+
+        public bool Deactivated;
 
         //colour value.
         Color colour = new Color(255, 255, 255, 255);
@@ -75,6 +76,11 @@ namespace TeamStor.TBS.Gui
             if (rectangle.Contains(game.Input.MousePosition/2))
             {
                 TextureRectangle = new Rectangle(96, 0, 160, 12);
+            }
+
+            if (Deactivated)
+            {
+                TextureRectangle = new Rectangle(96, 24, 160, 12);
             }
         }
     }

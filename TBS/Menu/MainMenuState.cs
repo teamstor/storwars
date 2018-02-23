@@ -25,8 +25,6 @@ namespace TeamStor.TBS.Menu
         GuiButton buttonoption;
         GuiButton buttonquit;
 
-        public bool Deactivated { get; private set; }
-
         public override void Draw(Engine.Graphics.SpriteBatch batch, Vector2 screenSize)
         {
             batch.Transform = Matrix.CreateScale(2);
@@ -93,10 +91,9 @@ namespace TeamStor.TBS.Menu
                 Game.Exit();
             }
             //exit knappen funkar
-            if(Deactivated)
-            {
-                TextureRectangle = new Rectangle(96, 24, 160, 12);
-            }
+            buttonplay.Deactivated = true;
+            buttonoption.Deactivated = true;
+            //makes the usuable buttons greyed out
         }
     }
 }
