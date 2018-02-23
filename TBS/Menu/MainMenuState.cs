@@ -85,6 +85,12 @@ namespace TeamStor.TBS.Menu
             {
                 Game.CurrentState = new MapEditorState();
             }
+            //mapeditor knappen funkar
+            if(buttonquit.HitBox.Contains(Input.MousePosition / 2) && Input.MousePressed(MouseButton.Left))
+            {
+                Game.Exit();
+            }
+            //exit knappen funkar
         }
     }
 }
