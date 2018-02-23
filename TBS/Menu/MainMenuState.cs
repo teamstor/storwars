@@ -10,6 +10,8 @@ using TeamStor.Engine.Graphics;
 using TeamStor.TBS.Gui;
 
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
+using Microsoft.Xna.Framework.Media;
+
 namespace TeamStor.TBS.Menu
 {
     class MainMenuState : GameState
@@ -26,6 +28,7 @@ namespace TeamStor.TBS.Menu
         {
             batch.Transform = Matrix.CreateScale(2);
             batch.SamplerState = SamplerState.PointWrap;
+            //ändrade clamp till warp så att bg ritas ut flera gånger
 
             batch.Texture(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Assets.Get<Texture2D>("textures/bg.png"), Color.White, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y));
 
@@ -50,6 +53,8 @@ namespace TeamStor.TBS.Menu
             buttonmap = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6), "Level Editor");
             buttonoption = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6), "Options");
             buttonquit = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6), "Quit");
+
+            MediaPlayer.Play(Assets.Get<Song>("music/menu.ogg"));
         }
 
         public override void OnLeave(GameState nextState)
@@ -68,6 +73,7 @@ namespace TeamStor.TBS.Menu
             buttonquit.Update(Game, deltaTime, totalTime, count);
             buttonquit.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 6*2 - 6);
             //knapparna stackas åtanpå varan tack vare multiplication, henke satte en knapp så lägger jag ba resten under den och sätter den på toppen
+            //ändrade multiplicationen så att det blir space mellan knapparna
         }
     }
 }
