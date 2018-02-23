@@ -50,9 +50,7 @@ namespace TeamStor.TBS.Gameplay.States
             get;
             private set;
         }
-        
-        public 
-        
+                
         public override void OnEnter(GameState previousState)
         {
             GameData = new GameData(MapData.Load("data/maps/test.tsmap"));
