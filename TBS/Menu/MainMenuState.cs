@@ -18,6 +18,9 @@ namespace TeamStor.TBS.Menu
         // button class
 
         GuiButton buttonplay;
+        GuiButton buttonmap;
+        GuiButton buttonoption;
+        GuiButton buttonquit;
 
         public override void Draw(Engine.Graphics.SpriteBatch batch, Vector2 screenSize)
         {
@@ -26,6 +29,9 @@ namespace TeamStor.TBS.Menu
 
             //drawing the button
             buttonplay.Draw(Game, batch);
+            buttonmap.Draw(Game, batch);
+            buttonoption.Draw(Game, batch);
+            buttonquit.Draw(Game, batch);
         }
 
         public override void FixedUpdate(long count)
@@ -36,7 +42,10 @@ namespace TeamStor.TBS.Menu
         public override void OnEnter(GameState previousState)
         {
             //putting the button texture on the screen
-            buttonplay = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2 (Game.GraphicsDevice.Viewport.Width/2 - 160  - 6, Game.GraphicsDevice.Viewport.Height/2 - 12 - 6), "test knapp");
+            buttonplay = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2 (Game.GraphicsDevice.Viewport.Width/2 - 160  - 6, Game.GraphicsDevice.Viewport.Height/2 - 12 - 6), "Play");
+            buttonmap = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6), "Level Editor");
+            buttonoption = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6), "Options");
+            buttonquit = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6), "Quit");
         }
 
         public override void OnLeave(GameState nextState)
@@ -48,6 +57,12 @@ namespace TeamStor.TBS.Menu
         {
             buttonplay.Update(Game, deltaTime, totalTime, count);
             buttonplay.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6);
+            buttonmap.Update(Game, deltaTime, totalTime, count);
+            buttonmap.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6);
+            buttonoption.Update(Game, deltaTime, totalTime, count);
+            buttonoption.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6);
+            buttonquit.Update(Game, deltaTime, totalTime, count);
+            buttonquit.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6);
         }
     }
 }
