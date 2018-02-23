@@ -18,6 +18,8 @@ namespace TeamStor.TBS.Gui
         public string Text;
         public Vector2 Position;
         public Vector2 Size = new Vector2(160, 12);
+
+        private Rectangle TextureRectangle;
        
 
         //colour value.
@@ -60,7 +62,7 @@ namespace TeamStor.TBS.Gui
             //the button itself.
             Font font = game.Assets.Get<Font>("fonts/PxPlus_IBM_BIOS.ttf");
             Vector2 measure = font.Measure(6, Text);
-            batch.Texture(Position, game.Assets.Get<Texture2D>("textures/Menu_Icons.png"),Color.White, null, new Rectangle(96, 24, 160, 12));
+            batch.Texture(Position, game.Assets.Get<Texture2D>("textures/Menu_Icons.png"),Color.White, null, TextureRectangle);
             batch.Text(font, 6, Text, new Vector2(Position.X + 80 - measure.X / 2, Position.Y + 2), Color.White);
         }
         
@@ -69,17 +71,11 @@ namespace TeamStor.TBS.Gui
             //the button position.
             Rectangle rectangle = new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
 
-            Rectangle TextureRectangle = new Rectangle(96, 0, 160, 12);
-            if (Rectangle.Contains(game.Input.MousePosition/2))
+            TextureRectangle = new Rectangle(96, 12, 160, 12);
+            if (rectangle.Contains(game.Input.MousePosition/2))
             {
                 TextureRectangle = new Rectangle(96, 0, 160, 12);
             }
-            //look for if the button is pressed. 
-            else if (colour.A < 255)
-            {
-                colour.A += 3;
-                isClicked = false;
-            }*/
         }
     }
 }
