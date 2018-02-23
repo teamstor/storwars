@@ -54,7 +54,9 @@ namespace TeamStor.TBS.Menu
             buttonoption = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6), "Options");
             buttonquit = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6), "Quit");
 
-            MediaPlayer.Play(Assets.Get<Song>("music/menu.ogg"));
+            MediaPlayer.Play(Assets.Get<Song>("music/menu.ogg")); //music to the main menu
+            MediaPlayer.Volume = 0.1f; //volume
+            MediaPlayer.IsRepeating = true; //makes the song repeat
         }
 
         public override void OnLeave(GameState nextState)
