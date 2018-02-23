@@ -53,7 +53,7 @@ namespace TeamStor.TBS.Gui
             //button hitbox.
             get
             {
-                return new Rectangle();
+                return new Rectangle((int)Position.X,(int)Position.Y, (int)Size.X, (int)Size.Y);
             }
         }
 

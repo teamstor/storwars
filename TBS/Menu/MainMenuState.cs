@@ -11,6 +11,7 @@ using TeamStor.TBS.Gui;
 
 using SpriteBatch = TeamStor.Engine.Graphics.SpriteBatch;
 using Microsoft.Xna.Framework.Media;
+using TeamStor.TBS.Map.Editor;
 
 namespace TeamStor.TBS.Menu
 {
@@ -55,7 +56,7 @@ namespace TeamStor.TBS.Menu
             buttonquit = new GuiButton(Assets.Get<Texture2D>("textures/Menu_Icons.png"), Game.GraphicsDevice, new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6), "Quit");
 
             MediaPlayer.Play(Assets.Get<Song>("music/menu.ogg")); //music to the main menu
-            MediaPlayer.Volume = 0.1f; //volume
+            MediaPlayer.Volume = 0.3f; //volume
             MediaPlayer.IsRepeating = true; //makes the song repeat
         }
 
@@ -68,14 +69,22 @@ namespace TeamStor.TBS.Menu
         {
             buttonplay.Update(Game, deltaTime, totalTime, count);
             buttonplay.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 6*11 - 6);
+
             buttonmap.Update(Game, deltaTime, totalTime, count);
             buttonmap.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 6*8 - 6);
+
             buttonoption.Update(Game, deltaTime, totalTime, count);
             buttonoption.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 6*5 - 6);
+
             buttonquit.Update(Game, deltaTime, totalTime, count);
             buttonquit.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 6*2 - 6);
             //knapparna stackas åtanpå varan tack vare multiplication, henke satte en knapp så lägger jag ba resten under den och sätter den på toppen
             //ändrade multiplicationen så att det blir space mellan knapparna
+
+            if(buttonmap.HitBox.Contains(Input.MousePosition / 2) && Input.MousePressed(MouseButton.Left))
+            {
+                Game.CurrentState = new MapEditorState();
+            }
         }
     }
 }
