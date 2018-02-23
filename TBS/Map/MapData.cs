@@ -8,6 +8,7 @@ using Game = TeamStor.Engine.Game;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using TeamStor.TBS.Gameplay;
 
 namespace TeamStor.TBS.Map
 {

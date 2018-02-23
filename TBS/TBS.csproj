@@ -43,6 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gameplay\Ingame\Camera.cs" />
+    <Compile Include="Gameplay\Ingame\FogOfWar.cs" />
+    <Compile Include="Gameplay\States\GameplayState.cs" />
+    <Compile Include="Gameplay\States\LobbyState.cs" />
+    <Compile Include="Gui\GuiButton.cs" />
+    <Compile Include="Gui\GuiController.cs" />
+    <Compile Include="Gui\GuiElement.cs" />
+    <Compile Include="Building\BuildingData.cs" />
+    <Compile Include="Building\BuildingType.cs" />
+    <Compile Include="Gameplay\Faction.cs" />
+    <Compile Include="Gameplay\GameData.cs" />
+    <Compile Include="Gameplay\Player.cs" />
+    <Compile Include="Gameplay\Team.cs" />
     <Compile Include="Map\Editor\Button.cs" />
     <Compile Include="Map\Editor\Camera.cs" />
     <Compile Include="Map\Editor\MapEditorState.cs" />
@@ -60,9 +73,19 @@
     <Compile Include="Map\Tiles\MountainTerrainTile.cs" />
     <Compile Include="Map\Tiles\VariationsTerrainTile.cs" />
     <Compile Include="Map\Tiles\AnimatedTerrainTile.cs" />
+    <Compile Include="Menu\MainMenuState.cs" />
+    <Compile Include="Online\OnlineData.cs" />
+    <Compile Include="Online\OnlineErrorState.cs" />
+    <Compile Include="Online\PacketType.cs" />
+    <Compile Include="Online\States\DisconnectedState.cs" />
+    <Compile Include="Online\States\JoinGameState.cs" />
+    <Compile Include="Online\States\TestCreateOrJoinServer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Team.cs" />
+    <Compile Include="Unit\UnitAnimation.cs" />
+    <Compile Include="Unit\Unit.cs" />
+    <Compile Include="Unit\UnitData.cs" />
+    <Compile Include="Version.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\team-stor-engine\TeamStor.Engine\TeamStor.Engine.csproj">
@@ -70,7 +93,6 @@
       <Name>TeamStor.Engine</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent Condition="'$(OS)' == 'Windows_NT' ">
