@@ -27,11 +27,15 @@ namespace TeamStor.TBS.Menu
             batch.Transform = Matrix.CreateScale(2);
             batch.SamplerState = SamplerState.PointClamp;
 
+            batch.Texture(new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y), Assets.Get<Texture2D>("textures/bg.png"), Color.White, new Rectangle(0, 0, (int)screenSize.X, (int)screenSize.Y))
+
             //drawing the button
             buttonplay.Draw(Game, batch);
             buttonmap.Draw(Game, batch);
             buttonoption.Draw(Game, batch);
             buttonquit.Draw(Game, batch);
+
+            batch.Texture(new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 180 -6, 6), Assets.Get<Texture2D>("textures/logo.png"), Color.White);
         }
 
         public override void FixedUpdate(long count)
@@ -56,13 +60,14 @@ namespace TeamStor.TBS.Menu
         public override void Update(double deltaTime, double totalTime, long count)
         {
             buttonplay.Update(Game, deltaTime, totalTime, count);
-            buttonplay.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6);
+            buttonplay.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12*4 - 6);
             buttonmap.Update(Game, deltaTime, totalTime, count);
-            buttonmap.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6);
+            buttonmap.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12*3 - 6);
             buttonoption.Update(Game, deltaTime, totalTime, count);
-            buttonoption.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6);
+            buttonoption.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12*2 - 6);
             buttonquit.Update(Game, deltaTime, totalTime, count);
             buttonquit.Position = new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 160 - 6, Game.GraphicsDevice.Viewport.Height / 2 - 12 - 6);
+            //knapparna stackas åtanpå varan tack vare multiplication, henke satte en knapp så lägger jag ba resten under den och sätter den på toppen
         }
     }
 }
