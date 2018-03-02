@@ -44,9 +44,10 @@ namespace TeamStor.TBS.Menu
             buttonmap.Draw(Game, batch);
             buttonoption.Draw(Game, batch);
             buttonquit.Draw(Game, batch);
+            //batch ritar ut saker
 
             batch.Texture(new Vector2(Game.GraphicsDevice.Viewport.Width / 2 - 180 -6, 6), Assets.Get<Texture2D>("textures/logo.png"), Color.White);
-
+            //Tar fram logo:n och mappar ut den på menyn
             batch.Transform = 
                 Matrix.CreateScale(2 + (float) (Math.Sin(Game.Time * 6f) + 1) * 0.04f) *
                 Matrix.CreateRotationZ(MathHelper.Pi * 0.01f);
